@@ -1,26 +1,32 @@
-﻿using MusicPlatform.Data;
+﻿using MusicPlatform.Application.Services;
+using MusicPlatform.Application.Models;
+using MusicPlatform.Data;
 using MusicPlatform.Models;
 using MusicPlatform.Services;
+using MusicPlatform.UI;
 
 namespace MusicPlatform.Helpers
 {
-    internal static class DatabaseTestHelper
+    internal class DatabaseTestHelper
     {
-        internal static Song? TestCreate(
-            SongCreationService songCreationService,
+        IInput _input =new Input();
+        IOutput _output = new Output();
+
+        internal SongInfo? TestCreate(
+            SongCreationApplicationService songCreationApplicationService,
             SongService songService)
         {
-            UIHelpers.WriteBlue("* Create *");
+            _output.WriteInfo("* Create *");
 
             try
             {
-                Song song = songCreationService.AddNewSong(
+                SongInfo song = songCreationApplicationService.AddNewSong(
                     "Test Song",
                     "Test Artist",
                     "Youtube",
                     "test-external-id");
 
-                UIHelpers.WriteGreen(
+                _output.WriteSuccess(
                     "Song created successfully.");
 
                 PrintSongs(songService);
@@ -29,17 +35,17 @@ namespace MusicPlatform.Helpers
             }
             catch (ArgumentException ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Validation error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Unexpected error: {ex.Message}");
 
                 if (ex.InnerException != null)
                 {
-                    UIHelpers.WriteRed(
+                    _output.WriteError(
                         $"Database error: {ex.InnerException.Message}");
                 }
             }
@@ -47,41 +53,38 @@ namespace MusicPlatform.Helpers
             return null;
         }
 
-        internal static void TestRead(
+        internal void TestRead(
             SongService songService)
         {
-            UIHelpers.WriteBlue("* Read *");
+            _output.WriteInfo("* Read *");
 
             try
             {
                 List<Song> songs =
                     songService.SearchSongs("Test");
 
-                UIHelpers.WriteGreen("Search results:");
+                _output.WriteSuccess("Search results:");
 
                 songs.ForEach(song => {PrintSongDetails(song);});
-                //songs.ForEach(
-                //    s => Console.WriteLine(
-                //        $"{s.Id}: {s.Title}"));
             }
             catch (Exception ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Unexpected error: {ex.Message}");
             }
         }
 
-        internal static void TestUpdate(
+        internal void TestUpdate(
             SongService songService,
             Song? testSong)
         {
-            UIHelpers.WriteBlue("* Update *");
+            _output.WriteInfo("* Update *");
 
             try
             {
                 if (testSong == null)
                 {
-                    UIHelpers.WriteRed(
+                    _output.WriteError(
                         "Update skipped because the test song was not created.");
                 }
                 else
@@ -90,7 +93,7 @@ namespace MusicPlatform.Helpers
                         testSong.Id,
                         "Updated Test Song");
 
-                    UIHelpers.WriteGreen(
+                    _output.WriteSuccess(
                         "Song updated successfully.");
                 }
 
@@ -98,43 +101,43 @@ namespace MusicPlatform.Helpers
             }
             catch (ArgumentException ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Validation error: {ex.Message}");
             }
             catch (InvalidOperationException ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Operation error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Unexpected error: {ex.Message}");
 
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Database error: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
 
-        internal static void TestDelete(
+        internal void TestDelete(
             SongService songService,
             Song? testSong)
         {
-            UIHelpers.WriteBlue("* Delete *");
+            _output.WriteInfo("* Delete *");
 
             try
             {
                 if (testSong == null)
                 {
-                    UIHelpers.WriteRed(
+                    _output.WriteError(
                         "Delete skipped because the test song was not created.");
                 }
                 else
                 {
-                    songService.DeleteSong(
-                        testSong.Id);
+                    _output.WriteError(
+                        testSong.Id.ToString());
 
-                    UIHelpers.WriteGreen(
+                    _output.WriteError(
                         "Song deleted successfully.");
                 }
 
@@ -142,23 +145,23 @@ namespace MusicPlatform.Helpers
             }
             catch (InvalidOperationException ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Operation error: {ex.Message}");
             }
             catch (Exception ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Unexpected error: {ex.Message}");
 
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Database error: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
 
-        internal static void TestMainArtistChange(
+        internal void TestMainArtistChange(
             MusicPlatformContext context)
         {
-            UIHelpers.WriteBlue("* Trigger *");
+            _output.WriteInfo("* Trigger *");
 
             try
             {
@@ -201,7 +204,7 @@ namespace MusicPlatform.Helpers
                 Artist newArtist = context.Artists
                     .First(a => a.Id == newMainArtist.ArtistId);
 
-                UIHelpers.WriteGreen(
+                _output.WriteSuccess(
                     $"Main artist changed from '{oldArtist.Name}' to '{newArtist.Name}'.");
 
                 //UIHelpers.WriteGreen(
@@ -209,26 +212,26 @@ namespace MusicPlatform.Helpers
 
                 transaction.Rollback();
 
-                UIHelpers.WriteGreen(
+                _output.WriteSuccess(
                     "Main artist restored.");
             }
             catch (Exception ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Trigger error: {ex.Message}");
 
                 if (ex.InnerException != null)
                 {
-                    UIHelpers.WriteRed(
+                    _output.WriteError(
                         $"Database error: {ex.InnerException.Message}");
                 }
             }
         }
 
-        internal static void TestFirstArtistBecomesMain(
+        internal void TestFirstArtistBecomesMain(
             MusicPlatformContext context)
         {
-            UIHelpers.WriteBlue("* Trigger Test *");
+            _output.WriteInfo("* Trigger Test *");
 
             try
             {
@@ -270,7 +273,7 @@ namespace MusicPlatform.Helpers
                         "Trigger did not set the first artist as main artist.");
                 }
 
-                UIHelpers.WriteGreen(
+                _output.WriteSuccess(
                     $"Trigger correctly set '{testArtist.Name}' as main artist for '{triggerTestSong.Title}'.");
 
                 //UIHelpers.WriteGreen(
@@ -280,21 +283,21 @@ namespace MusicPlatform.Helpers
             }
             catch (Exception ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Trigger test failed: {ex.Message}");
 
                 if (ex.InnerException != null)
                 {
-                    UIHelpers.WriteRed(
+                    _output.WriteError(
                         $"Database error: {ex.InnerException.Message}");
                 }
             }
         }
 
-        internal static void TestMainArtistValue(
+        internal void TestMainArtistValue(
             MusicPlatformContext context)
         {
-            UIHelpers.WriteBlue("* Main Artist Value Test *");
+            _output.WriteInfo("* Main Artist Value Test *");
 
             try
             {
@@ -351,7 +354,7 @@ namespace MusicPlatform.Helpers
                         "Trigger incorrectly changed the second artist to main artist.");
                 }
 
-                UIHelpers.WriteGreen(
+                _output.WriteSuccess(
                     $"Trigger correctly respected IsMainArtist = false, and kept '{secondArtist.Name}' as non-main artist.");
 
                 //UIHelpers.WriteGreen(
@@ -361,24 +364,25 @@ namespace MusicPlatform.Helpers
             }
             catch (Exception ex)
             {
-                UIHelpers.WriteRed(
+                _output.WriteError(
                     $"Main artist value test failed: {ex.Message}");
 
                 if (ex.InnerException != null)
                 {
-                    UIHelpers.WriteRed(
+                    _output.WriteError(
                         $"Database error: {ex.InnerException.Message}");
                 }
             }
         }
-        private static void PrintSongDetails(Song song)
+        private void PrintSongDetails(Song song)
         {
+
             var context = new MusicPlatformContext();
 
-            Console.WriteLine(UIHelpers.FormatSong(context, song));
+            _output.WriteLine(UIHelpers.OLDFormatSong(context, song));
 
         }
-        private static void PrintSongs(
+        private void PrintSongs(
             SongService songService)
         {
             var context = new MusicPlatformContext();
@@ -386,10 +390,10 @@ namespace MusicPlatform.Helpers
             List<Song> songs =
                 songService.GetSongs();
 
-            Console.WriteLine("Songs in DB:");
+            _output.WriteInfo("Songs in DB:");
             songs.ForEach(s =>
             {
-                Console.WriteLine( UIHelpers.FormatSong(context, s));
+                _output.WriteLine( UIHelpers.OLDFormatSong(context, s));
             });
 
         }

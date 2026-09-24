@@ -2,44 +2,40 @@
 {
     public class Input : IInput
     {
-        public string ReadString(string text)
+        public string ReadString()
         {
-            Console.Write(text);
             return Console.ReadLine() ?? "";
         }
 
-        public string ReadRequiredString(string text)
+        public string ReadRequiredString()
         {
             while (true)
             {
-                Console.Write(text);
-
-                string input = Console.ReadLine() ?? "";
+                string input = ReadString();
 
                 if (!string.IsNullOrWhiteSpace(input))
                 {
                     return input.Trim();
                 }
-
-                Console.WriteLine("Input cannot be empty.");
             }
         }
 
-        public int ReadInt(string text)
+        public int ReadInt()
         {
             while (true)
             {
-                Console.Write(text);
-
-                string input = Console.ReadLine() ?? "";
+                string input = ReadString();
 
                 if (int.TryParse(input, out int result))
                 {
                     return result;
                 }
-
-                Console.WriteLine("Please enter a valid number.");
             }
+        }
+
+        public ConsoleKeyInfo ReadKey()
+        {
+            return Console.ReadKey();
         }
     }
 }

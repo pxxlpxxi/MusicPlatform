@@ -1,5 +1,7 @@
-﻿using MusicPlatform.Data;
-using MusicPlatform.Helpers;
+﻿using MusicPlatform.Application.Mappers;
+using MusicPlatform.Application.Models;
+using MusicPlatform.Data;
+using MusicPlatform.Logging;
 using MusicPlatform.Models;
 
 namespace MusicPlatform.Services
@@ -36,7 +38,7 @@ namespace MusicPlatform.Services
 
             return song;
         }
-               
+
         //READ: The search term cannot be empty
         internal List<Song> SearchSongs(string searchTerm)
         {
@@ -72,7 +74,9 @@ namespace MusicPlatform.Services
                 throw new InvalidOperationException("The song does not exist.");
             }
 
-            song.Title = newTitle;
+            string normalizedTitle = newTitle.Trim();
+
+            song.Title = normalizedTitle;
             _context.SaveChanges();
             DatabaseLogger.Log("UPDATE", "Song", $"{song.Id} | {song.Title}");
         }
@@ -95,6 +99,82 @@ namespace MusicPlatform.Services
         internal List<Song> GetSongs()
         {
             return _context.Songs.ToList();
+        }
+
+        internal SongInfo GetSongInfo(int songId)
+        {
+            Song? song =
+                _context.Songs
+                .FirstOrDefault(s => s.Id == songId);
+
+            if (song == null)
+            {
+                throw new InvalidOperationException("The song does not exist.");
+            }
+            List<SongArtist> songArtists =
+                _context.SongArtists
+                .Where(sa => sa.SongId == songId)
+                .ToList();
+
+            List<int> artistIds =
+                 songArtists
+                 .Select(sa => sa.ArtistId)
+                 .Distinct()
+                 .ToList();
+
+            List<Artist> artists =
+                _context.Artists
+                .Where(a => artistIds.Contains(a.Id))
+                .ToList();
+
+            //Contains() her betyder i praksis: "findes denne præcise int-værdi i listen?"
+            //Fordi _context.Artists er en EF Core DbSet, bliver LINQ ikke bare kørt som almindelig C#-kode.
+            //EF Core oversætter udtrykket til SQL.
+            //basically, feks: SELECT * FROM "Artist" WHERE "Id" IN (1, 10, 401), og
+            //altså IKKE det samme som:
+            // string id = "401";
+            //text.Contains("1");
+
+            List<AlbumSong> albumSongs =
+                _context.AlbumSongs
+                .Where(als => als.SongId == songId)
+                .ToList();
+
+            List<int> albumIds =
+                albumSongs
+                .Select(als => als.AlbumId)
+                .Distinct()
+                .ToList();
+
+            List<Album> albums =
+                _context.Albums
+                .Where(a => albumIds.Contains(a.Id))
+                .ToList();
+
+            List<Media> media =
+                _context.Media
+                .Where(m => m.SongId == songId)
+                .ToList();
+
+            List<int> mediaTypeIds =
+                media
+                .Select(m => m.MediaTypeId)
+                .Distinct()
+                .ToList();
+
+            List<MediaType> mediaTypes =
+                _context.MediaTypes
+                .Where(mt => mediaTypeIds.Contains(mt.Id))
+                .ToList();
+
+            return SongMapper.ToSongInfo(
+                song,
+                songArtists,
+                artists,
+                albumSongs,
+                albums,
+                media,
+                mediaTypes);
         }
     }
 }

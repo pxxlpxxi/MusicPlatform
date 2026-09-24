@@ -1,15 +1,19 @@
 ﻿using Microsoft.Extensions.Configuration;
+using MusicPlatform.UI;
 using Npgsql;
 
 namespace MusicPlatform.Database
 {
     internal class DatabaseInitializer
     {
+        private readonly IOutput _output;
         private readonly string _postgresConnectionString;
         private readonly string _musicPlatformConnectionString;
 
-        public DatabaseInitializer()
+        public DatabaseInitializer(IOutput output)
         {
+            _output= output;
+
             //henter user secrets
             var configuration = new ConfigurationBuilder()
                 .AddUserSecrets<DatabaseInitializer>()
@@ -59,10 +63,10 @@ namespace MusicPlatform.Database
                 //kører create database fra sql filen
                 createCommand.ExecuteNonQuery();
 
-                Console.WriteLine($"Database created.");
+                _output.WriteSuccess($"Database created.");
             }
             else {
-                Console.WriteLine("Database already exists.");
+                _output.WriteInfo("Database already exists.");
             }
 
            
@@ -84,7 +88,7 @@ namespace MusicPlatform.Database
             //kører CREATE TABLE-kommandoerne fra schema.sql
             command.ExecuteNonQuery();
 
-            Console.WriteLine("Database schema created.");
+            _output.WriteSuccess("Database schema created.");
         }
 
         private void CreateTriggers() {
@@ -124,7 +128,7 @@ namespace MusicPlatform.Database
 
             command.ExecuteNonQuery();
 
-            Console.WriteLine("Database triggers created");
+            _output.WriteSuccess("Database triggers created");
         }
     }
 

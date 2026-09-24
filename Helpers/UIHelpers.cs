@@ -1,4 +1,5 @@
-﻿using MusicPlatform.Data;
+﻿using MusicPlatform.Application.Models;
+using MusicPlatform.Data;
 using MusicPlatform.Models;
 using System;
 using System.Collections.Generic;
@@ -14,26 +15,80 @@ namespace MusicPlatform.Helpers
 
         private const ConsoleColor Red = ConsoleColor.DarkRed;
 
-        internal static void WriteBlue(string message)
+        internal static string FormatSong(SongInfo song)
         {
-            Console.ForegroundColor = Blue;
-            Console.WriteLine(message);
-            Console.ResetColor();
-        }
-        internal static void WriteGreen(string message)
-        {
-            Console.ForegroundColor = Green;
-            Console.WriteLine(message);
-            Console.ResetColor();
+            string title = song.Title;
+
+            if (song.FeaturedArtists.Count > 0)
+            {
+                title += $"{FormatFeaturedArtists(song.FeaturedArtists)}";
+            }
+
+            string albums = FormatAlbums(song.Albums);
+
+            string media = string.Join(
+                ", ",
+                song.Media.Select(m => $"{m.Type}: {m.ExternalId}"));
+
+            return $"Title: {title}\n" +
+                $"Artist: {song.MainArtist}\n" +
+                $"Albums: {albums}\n" +
+                $"Media: {media}\n";
+
+
         }
 
-        internal static void WriteRed(string message)
+        private static string FormatFeaturedArtists(List<string> featuredArtists)
         {
-            Console.ForegroundColor = Red;
-            Console.WriteLine(message);
-            Console.ResetColor();
+            if (featuredArtists.Count == 0)
+            {
+                return "";
+            }
+
+            if (featuredArtists.Count == 1)
+            {
+                return $"feat. {featuredArtists[0]}";
+            }
+
+            if (featuredArtists.Count == 2)
+            {
+                return $"feat. {featuredArtists[0]} & {featuredArtists[1]}";
+            }
+
+            string allButLast = string.Join(
+                ", ",
+                featuredArtists.Take(featuredArtists.Count - 1));
+
+            string last = featuredArtists[^1];
+
+            return $"feat. {allButLast} & {last}";
         }
-        internal static string FormatSong(
+        private static string FormatAlbums(List<AlbumInfo> albums)
+        {
+            if (albums.Count == 0)
+            {
+                return "N/A";
+            }
+
+            if (albums.Count == 1)
+            {
+                return $"{albums[0].Title}";
+            }
+
+            if (albums.Count == 2)
+            {
+                return $"{albums[0].Title} & {albums[1].Title}";
+            }
+
+            string allButLast = string.Join(
+                ", ",
+                albums.Take(albums.Count - 1).Select(a => a.Title));
+
+            string last = albums[^1].Title;
+
+            return $"{allButLast} & {last}";
+        }
+        internal static string OLDFormatSong(
             MusicPlatformContext context,
             Song song)
         {
@@ -87,3 +142,5 @@ namespace MusicPlatform.Helpers
 
     }
 }
+
+    

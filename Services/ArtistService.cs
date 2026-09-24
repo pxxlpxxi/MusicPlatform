@@ -1,5 +1,5 @@
 ﻿using MusicPlatform.Data;
-using MusicPlatform.Helpers;
+using MusicPlatform.Logging;
 using MusicPlatform.Models;
 
 namespace MusicPlatform.Services

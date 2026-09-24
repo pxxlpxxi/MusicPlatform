@@ -1,5 +1,5 @@
 ﻿using MusicPlatform.Data;
-using MusicPlatform.Helpers;
+using MusicPlatform.Logging;
 using MusicPlatform.Models;
 
 namespace MusicPlatform.Services
@@ -13,7 +13,7 @@ namespace MusicPlatform.Services
             _context = context;
         }
 
-        internal Album CreateAlbum(string title)
+        internal Album CreateAlbum(string title, DateOnly? releaseDate)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -24,7 +24,9 @@ namespace MusicPlatform.Services
             string normalizedTitle = title.Trim();
 
             Album? existingAlbum = _context.Albums
-                .FirstOrDefault(a => a.Title == normalizedTitle);
+                .FirstOrDefault(a => 
+                a.Title == normalizedTitle &&
+                a.ReleaseDate == releaseDate);
 
             if (existingAlbum != null)
             {
@@ -33,7 +35,8 @@ namespace MusicPlatform.Services
 
             Album album = new()
             {
-                Title = normalizedTitle
+                Title = normalizedTitle,
+                ReleaseDate = releaseDate
             };
 
             _context.Albums.Add(album);

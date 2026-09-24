@@ -1,11 +1,15 @@
-﻿using MusicPlatform.Data;
+﻿using MusicPlatform.Application.Models;
+using MusicPlatform.Data;
 using MusicPlatform.Database;
 using MusicPlatform.Helpers;
-using MusicPlatform.Models;
 using MusicPlatform.Seeding;
 using MusicPlatform.Services;
+using MusicPlatform.UI;
 
-DatabaseInitializer databaseInitializer = new DatabaseInitializer();
+IInput input = new Input();
+IOutput output = new Output();
+
+DatabaseInitializer databaseInitializer = new(output);
 
 databaseInitializer.Initialize();
 
@@ -13,11 +17,12 @@ using var context = new MusicPlatformContext();
 
 if (context.Database.CanConnect())
 {
-    UIHelpers.WriteGreen("EF Core forbindelse oprettet.");
+    output.WriteSuccess("Establishing EF Core connection succeeded.");
+
 }
 else
 {
-    UIHelpers.WriteRed("EF Core kunne ikke forbinde til databasen");
+    output.WriteError("Establishing EF Core connection failed.");
 }
 
 DatabaseSeeder databaseSeeder = new();
@@ -28,41 +33,61 @@ SongService songService = new(context);
 ArtistService artistService = new(context);
 AlbumService albumService = new(context);
 MediaService mediaService = new(context);
+SongInfo songInfo = songService.GetSongInfo(1);
 
-SongCreationService songCreationService =
-    new(
-        context,
-        songService,
-        artistService,
-        albumService,
-        mediaService);
+output.Write(UIHelpers.FormatSong(songInfo));
+//Console.WriteLine(songInfo.Title);
+//Console.WriteLine(songInfo.MainArtist);
 
-// Create
-Song? testSong =
-    DatabaseTestHelper.TestCreate(
-        songCreationService,
-        songService);
+//foreach (string artist in songInfo.FeaturedArtists)
+//{
+//    Console.WriteLine($"Featured: {artist}");
+//}
 
-//Read
-DatabaseTestHelper.TestRead(songService);
+//foreach (AlbumInfo album in songInfo.Albums)
+//{
+//    Console.WriteLine($"Album: {album.Title}");
+//}
 
-//Update
-DatabaseTestHelper.TestUpdate(
-    songService,
-    testSong);
+//foreach (MediaInfo media in songInfo.Media)
+//{
+//    Console.WriteLine($"Media: {media.Type} - {media.ExternalId}");
+//}
 
-//Delete
-DatabaseTestHelper.TestDelete(
-    songService,
-    testSong);
+//SongCreationService songCreationService =
+//    new(
+//        context,
+//        songService,
+//        artistService,
+//        albumService,
+//        mediaService);
 
-//trigger test
-DatabaseTestHelper.TestMainArtistChange(context);
+//// Create
+//Song? testSong =
+//    DatabaseTestHelper.TestCreate(
+//        songCreationService,
+//        songService);
 
-//test that the first artist automatically becomes main artist
-DatabaseTestHelper.TestFirstArtistBecomesMain(context);
+////Read
+//DatabaseTestHelper.TestRead(songService);
 
-//test that the user's IsMainArtist value is respected when the song already has an artist.
-DatabaseTestHelper.TestMainArtistValue(context);
+////Update
+//DatabaseTestHelper.TestUpdate(
+//    songService,
+//    testSong);
 
-Console.ReadKey();
+////Delete
+//DatabaseTestHelper.TestDelete(
+//    songService,
+//    testSong);
+
+////trigger test
+//DatabaseTestHelper.TestMainArtistChange(context);
+
+////test that the first artist automatically becomes main artist
+//DatabaseTestHelper.TestFirstArtistBecomesMain(context);
+
+////test that the user's IsMainArtist value is respected when the song already has an artist.
+//DatabaseTestHelper.TestMainArtistValue(context);
+
+input.ReadKey();

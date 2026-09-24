@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MusicPlatform.Helpers
+﻿namespace MusicPlatform.Logging
 {
     internal static class DatabaseLogger
     {

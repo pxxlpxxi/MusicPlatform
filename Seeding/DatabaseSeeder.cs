@@ -1,10 +1,13 @@
-﻿using MusicPlatform.Data;
+﻿using MusicPlatform.Application.Models;
+using MusicPlatform.Data;
 using MusicPlatform.Models;
+using MusicPlatform.UI;
 
 namespace MusicPlatform.Seeding
 {
     internal class DatabaseSeeder
     {
+        private readonly IOutput _output = new Output();
         internal void Seed()
         {
             using var context = new MusicPlatformContext();
@@ -13,7 +16,7 @@ namespace MusicPlatform.Seeding
 
             if (context.Artists.Any())
             {
-                Console.WriteLine("Database already contains seed data.");
+                _output.WriteInfo("Database already contains seed data.");
                 return;
             }
 

@@ -1,4 +1,4 @@
-﻿namespace MusicPlatform.Models
+﻿namespace MusicPlatform.Application.Models
 {
     public enum MediaTypeName
     {

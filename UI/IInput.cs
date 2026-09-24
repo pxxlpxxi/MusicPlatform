@@ -2,10 +2,9 @@
 {
     public interface IInput
     {
-        string ReadString(string text);
-
-        string ReadRequiredString(string text);
-
-        int ReadInt(string text);
+        string ReadString();
+        string ReadRequiredString();
+        int ReadInt();
+        ConsoleKeyInfo ReadKey();
     }
 }
