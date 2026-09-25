@@ -1,0 +1,309 @@
+2026-09-22 19:05:41 | CREATE | Song | 28 | Test Song
+2026-09-22 19:05:41 | READ | Song | Search: Test | Result: 1
+2026-09-22 19:05:41 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 19:05:41 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 19:35:02 | READ | Song | Search: Test | Result: 0
+2026-09-22 19:43:35 | READ | Song | Search: Test | Result: 0
+2026-09-22 19:45:14 | READ | Song | Search: Test | Result: 0
+2026-09-22 19:45:54 | READ | Song | Search: Test | Result: 0
+2026-09-22 20:41:18 | CREATE | Song | 28 | Test Song
+2026-09-22 20:41:18 | CREATE | SongArtist | SongId: 28 | ArtistId: 1 | MainArtist: True
+2026-09-22 20:41:18 | READ | Song | Search: Test | Result: 1
+2026-09-22 20:41:18 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 20:41:18 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 20:42:01 | CREATE | Song | 28 | Test Song
+2026-09-22 20:42:01 | CREATE | SongArtist | SongId: 28 | ArtistId: 1 | MainArtist: True
+2026-09-22 20:42:01 | READ | Song | Search: Test | Result: 1
+2026-09-22 20:42:01 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 20:42:01 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 20:44:13 | CREATE | Song | 28 | Test Song
+2026-09-22 20:44:13 | CREATE | SongArtist | SongId: 28 | ArtistId: 1 | MainArtist: True
+2026-09-22 20:44:13 | READ | Song | Search: Test | Result: 1
+2026-09-22 20:44:13 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 20:44:13 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 20:49:37 | CREATE | Song | 28 | Test Song
+2026-09-22 20:49:37 | CREATE | SongArtist | SongId: 28 | ArtistId: 1 | MainArtist: True
+2026-09-22 20:49:37 | READ | Song | Search: Test | Result: 1
+2026-09-22 20:49:37 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 20:49:37 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 20:51:11 | CREATE | Song | 28 | Test Song
+2026-09-22 20:51:11 | CREATE | SongArtist | SongId: 28 | ArtistId: 1 | MainArtist: True
+2026-09-22 20:51:11 | READ | Song | Search: Test | Result: 1
+2026-09-22 20:51:11 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 20:51:11 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 22:35:51 | CREATE | Song | 28 | Test Song
+2026-09-22 22:35:51 | CREATE | Artist | Name: Test Artist
+2026-09-22 22:35:51 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 22:35:51 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 22:35:51 | READ | Song | Search: Test | Result: 1
+2026-09-22 22:35:51 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 22:35:51 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 22:43:06 | CREATE | Song | 28 | Test Song
+2026-09-22 22:43:06 | CREATE | Artist | Name: Test Artist
+2026-09-22 22:43:06 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 22:43:06 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 22:43:06 | READ | Song | Search: Test | Result: 1
+2026-09-22 22:43:06 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 22:43:06 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 22:47:16 | CREATE | Song | 28 | Test Song
+2026-09-22 22:47:16 | CREATE | Artist | Name: Test Artist
+2026-09-22 22:47:16 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 22:47:16 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 22:47:16 | READ | Song | Search: Test | Result: 1
+2026-09-22 22:47:16 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 22:47:16 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 22:49:14 | CREATE | Song | 28 | Test Song
+2026-09-22 22:49:14 | CREATE | Artist | Name: Test Artist
+2026-09-22 22:49:14 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 22:49:14 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 22:49:14 | READ | Song | Search: Test | Result: 1
+2026-09-22 22:49:14 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 22:49:14 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 22:53:04 | CREATE | Song | 28 | Test Song
+2026-09-22 22:53:04 | CREATE | Artist | Name: Test Artist
+2026-09-22 22:53:04 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 22:53:04 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 22:53:04 | READ | Song | Search: Test | Result: 1
+2026-09-22 22:53:04 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 22:53:04 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 23:02:09 | CREATE | Song | 28 | Test Song
+2026-09-22 23:02:09 | CREATE | Artist | Name: Test Artist
+2026-09-22 23:02:09 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 23:02:09 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 23:02:09 | READ | Song | Search: Test | Result: 1
+2026-09-22 23:02:09 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 23:02:09 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 23:02:37 | CREATE | Song | 28 | Test Song
+2026-09-22 23:02:37 | CREATE | Artist | Name: Test Artist
+2026-09-22 23:02:37 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 23:02:37 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 23:02:37 | READ | Song | Search: Test | Result: 1
+2026-09-22 23:02:37 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 23:02:38 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 23:03:46 | CREATE | Song | 28 | Test Song
+2026-09-22 23:03:46 | CREATE | Artist | Name: Test Artist
+2026-09-22 23:03:46 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 23:03:46 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 23:03:46 | READ | Song | Search: Test | Result: 1
+2026-09-22 23:03:46 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 23:03:47 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 23:04:13 | CREATE | Song | 28 | Test Song
+2026-09-22 23:04:13 | CREATE | Artist | Name: Test Artist
+2026-09-22 23:04:13 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 23:04:13 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 23:04:14 | READ | Song | Search: Test | Result: 1
+2026-09-22 23:04:14 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 23:04:14 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 23:08:25 | CREATE | Song | 28 | Test Song
+2026-09-22 23:08:25 | CREATE | Artist | Name: Test Artist
+2026-09-22 23:08:25 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 23:08:25 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 23:08:25 | READ | Song | Search: Test | Result: 1
+2026-09-22 23:08:25 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 23:08:25 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 23:13:12 | CREATE | Song | 28 | Test Song
+2026-09-22 23:13:12 | CREATE | Artist | Name: Test Artist
+2026-09-22 23:13:12 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 23:13:12 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 23:13:12 | READ | Song | Search: Test | Result: 1
+2026-09-22 23:13:12 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 23:13:12 | DELETE | Song | 28 | Updated Test Song
+2026-09-22 23:14:26 | CREATE | Song | 28 | Test Song
+2026-09-22 23:14:26 | CREATE | Artist | Name: Test Artist
+2026-09-22 23:14:26 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-22 23:14:26 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-22 23:14:26 | READ | Song | Search: Test | Result: 1
+2026-09-22 23:14:26 | UPDATE | Song | 28 | Updated Test Song
+2026-09-22 23:14:26 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 10:20:14 | CREATE | Song | 28 | Test Song
+2026-09-24 10:20:15 | CREATE | Artist | Name: Test Artist
+2026-09-24 10:20:15 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 10:20:15 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-24 10:20:15 | READ | Song | Search: Test | Result: 1
+2026-09-24 10:20:15 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 10:20:15 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 10:32:45 | CREATE | Song | 28 | Test Song
+2026-09-24 10:32:45 | CREATE | Artist | Name: Test Artist
+2026-09-24 10:32:45 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 10:32:45 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: test-external-id
+2026-09-24 10:32:45 | READ | Song | Search: Test | Result: 1
+2026-09-24 10:32:45 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 10:32:45 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 21:31:40 | CREATE | Song | 28 | Test Song
+2026-09-24 21:31:40 | CREATE | Artist | Name: Test Artist
+2026-09-24 21:31:40 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 21:31:40 | CREATE | Artist | Name: test-artist-2
+2026-09-24 21:31:40 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 21:31:40 | CREATE | Album | Title: test-album
+2026-09-24 21:31:40 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 21:31:40 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 21:31:41 | READ | Song | Search: Test | Result: 1
+2026-09-24 21:32:59 | CREATE | Song | 28 | Test Song
+2026-09-24 21:32:59 | CREATE | Artist | Name: Test Artist
+2026-09-24 21:32:59 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 21:32:59 | CREATE | Artist | Name: test-artist-2
+2026-09-24 21:32:59 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 21:32:59 | CREATE | Album | Title: test-album
+2026-09-24 21:32:59 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 21:32:59 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 21:32:59 | READ | Song | Search: Test | Result: 1
+2026-09-24 21:44:08 | CREATE | Song | 28 | Test Song
+2026-09-24 21:44:08 | CREATE | Artist | Name: Test Artist
+2026-09-24 21:44:08 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 21:44:08 | CREATE | Artist | Name: test-artist-2
+2026-09-24 21:44:08 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 21:44:08 | CREATE | Album | Title: test-album
+2026-09-24 21:44:08 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 21:44:08 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 21:44:08 | READ | Song | Search: Test | Result: 1
+2026-09-24 21:44:08 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 21:44:08 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 21:48:07 | CREATE | Song | 28 | Test Song
+2026-09-24 21:48:08 | CREATE | Artist | Name: Test Artist
+2026-09-24 21:48:08 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 21:48:08 | CREATE | Artist | Name: test-artist-2
+2026-09-24 21:48:08 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 21:48:08 | CREATE | Album | Title: test-album
+2026-09-24 21:48:08 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 21:48:08 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 21:48:08 | READ | Song | Search: Test | Result: 1
+2026-09-24 21:48:08 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 21:48:08 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 21:51:14 | CREATE | Song | 28 | Test Song
+2026-09-24 21:51:14 | CREATE | Artist | Name: Test Artist
+2026-09-24 21:51:14 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 21:51:14 | CREATE | Artist | Name: test-artist-2
+2026-09-24 21:51:14 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 21:51:14 | CREATE | Album | Title: test-album
+2026-09-24 21:51:14 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 21:51:14 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 21:51:15 | READ | Song | Search: Test | Result: 1
+2026-09-24 21:51:15 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 21:51:15 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 22:10:23 | CREATE | Song | 28 | Test Song
+2026-09-24 22:10:23 | CREATE | Artist | Name: Test Artist
+2026-09-24 22:10:23 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 22:10:23 | CREATE | Artist | Name: test-artist-2
+2026-09-24 22:10:23 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 22:10:23 | CREATE | Album | Title: test-album
+2026-09-24 22:10:23 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 22:10:23 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 22:10:23 | READ | Song | Search: Test | Result: 1
+2026-09-24 22:10:23 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 22:10:24 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 22:14:58 | CREATE | Song | 28 | Test Song
+2026-09-24 22:14:58 | CREATE | Artist | Name: Test Artist
+2026-09-24 22:14:58 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 22:14:58 | CREATE | Artist | Name: test-artist-2
+2026-09-24 22:14:58 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 22:14:58 | CREATE | Album | Title: test-album
+2026-09-24 22:14:58 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 22:14:58 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 22:14:58 | READ | Song | Search: Test | Result: 1
+2026-09-24 22:14:58 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 22:14:58 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 22:34:01 | CREATE | Song | 28 | Test Song
+2026-09-24 22:34:01 | CREATE | Artist | Name: Test Artist
+2026-09-24 22:34:01 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 22:34:01 | CREATE | Artist | Name: test-artist-2
+2026-09-24 22:34:01 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 22:34:01 | CREATE | Album | Title: test-album
+2026-09-24 22:34:01 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 22:34:01 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 22:34:01 | READ | Song | Search: Test | Result: 1
+2026-09-24 22:34:01 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 22:34:01 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 22:35:31 | CREATE | Song | 28 | Test Song
+2026-09-24 22:35:31 | CREATE | Artist | Name: Test Artist
+2026-09-24 22:35:31 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 22:35:31 | CREATE | Artist | Name: test-artist-2
+2026-09-24 22:35:31 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 22:35:31 | CREATE | Album | Title: test-album
+2026-09-24 22:35:31 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 22:35:31 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 22:35:31 | READ | Song | Search: Test | Result: 1
+2026-09-24 22:35:31 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 22:35:31 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 22:42:31 | CREATE | Song | 28 | Test Song
+2026-09-24 22:42:31 | CREATE | Artist | Name: Test Artist
+2026-09-24 22:42:31 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 22:42:31 | CREATE | Artist | Name: test-artist-2
+2026-09-24 22:42:31 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 22:42:31 | CREATE | Album | Title: test-album
+2026-09-24 22:42:31 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 22:42:31 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 22:42:31 | READ | Song | Search: Test | Result: 1
+2026-09-24 22:42:31 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 22:42:31 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 22:45:53 | CREATE | Song | 28 | Test Song
+2026-09-24 22:45:53 | CREATE | Artist | Name: Test Artist
+2026-09-24 22:45:53 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 22:45:54 | CREATE | Artist | Name: test-artist-2
+2026-09-24 22:45:54 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 22:45:54 | CREATE | Album | Title: test-album
+2026-09-24 22:45:54 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 22:45:54 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 22:45:54 | READ | Song | Search: Test | Result: 1
+2026-09-24 22:45:54 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 22:45:54 | DELETE | Song | 28 | Updated Test Song
+2026-09-24 22:47:30 | CREATE | Song | 28 | Test Song
+2026-09-24 22:47:30 | CREATE | Artist | Name: Test Artist
+2026-09-24 22:47:30 | CREATE | SongArtist | SongId: 28 | ArtistId: 21 | MainArtist: True
+2026-09-24 22:47:30 | CREATE | Artist | Name: test-artist-2
+2026-09-24 22:47:30 | CREATE | SongArtist | SongId: 28 | ArtistId: 22 | MainArtist: False
+2026-09-24 22:47:30 | CREATE | Album | Title: test-album
+2026-09-24 22:47:30 | CREATE | AlbumSong | AlbumId: 20 | SongId: 28
+2026-09-24 22:47:30 | CREATE | Media | MediaId: 28 | SongId: 28 | ExternalId: external-test-id
+2026-09-24 22:47:30 | READ | Song | Search: Test | Result: 1
+2026-09-24 22:47:30 | UPDATE | Song | 28 | Updated Test Song
+2026-09-24 22:47:30 | DELETE | Song | 28 | Updated Test Song
+2026-09-25 02:13:47 | CREATE | Song | 31 | Test Song
+2026-09-25 02:13:47 | CREATE | SongArtist | SongId: 31 | ArtistId: 21 | MainArtist: True
+2026-09-25 02:13:47 | CREATE | SongArtist | SongId: 31 | ArtistId: 22 | MainArtist: False
+2026-09-25 02:13:47 | CREATE | AlbumSong | AlbumId: 20 | SongId: 31
+2026-09-25 02:13:47 | CREATE | Media | MediaId: 29 | SongId: 31 | ExternalId: external-test-id
+2026-09-25 02:13:47 | READ | Song | Search: Test | Result: 1
+2026-09-25 02:13:47 | UPDATE | Song | 31 | Updated Test Song
+2026-09-25 02:13:47 | DELETE | Song | 31 | Updated Test Song
+2026-09-25 02:13:48 | CREATE | User | Username: testuser | Role: User
+2026-09-25 02:13:48 | READ | User | Search: Username 'testuser' | Result: testuser
+2026-09-25 02:13:48 | READ | User | Search: Username 'testuser' | Result: testuser
+2026-09-25 02:13:48 | DELETE | User | Username: 3 | Role: Admin
+2026-09-25 02:17:07 | CREATE | Song | 34 | Test Song
+2026-09-25 02:17:07 | CREATE | SongArtist | SongId: 34 | ArtistId: 21 | MainArtist: True
+2026-09-25 02:17:07 | CREATE | SongArtist | SongId: 34 | ArtistId: 22 | MainArtist: False
+2026-09-25 02:17:07 | CREATE | AlbumSong | AlbumId: 20 | SongId: 34
+2026-09-25 02:17:07 | CREATE | Media | MediaId: 30 | SongId: 34 | ExternalId: external-test-id
+2026-09-25 02:17:07 | READ | Song | Search: Test | Result: 1
+2026-09-25 02:17:07 | UPDATE | Song | 34 | Updated Test Song
+2026-09-25 02:17:07 | DELETE | Song | 34 | Updated Test Song
+2026-09-25 02:17:07 | CREATE | User | Username: testuser | Role: User
+2026-09-25 02:17:08 | READ | User | Search: Username 'testuser' | Result: testuser
+2026-09-25 02:17:08 | READ | User | Search: Username 'testuser' | Result: testuser
+2026-09-25 02:17:08 | DELETE | User | Username: 4 | Role: Admin
+2026-09-25 02:24:18 | CREATE | Song | 37 | Test Song
+2026-09-25 02:24:18 | CREATE | SongArtist | SongId: 37 | ArtistId: 21 | MainArtist: True
+2026-09-25 02:24:18 | CREATE | SongArtist | SongId: 37 | ArtistId: 22 | MainArtist: False
+2026-09-25 02:24:18 | CREATE | AlbumSong | AlbumId: 20 | SongId: 37
+2026-09-25 02:24:19 | CREATE | Media | MediaId: 31 | SongId: 37 | ExternalId: external-test-id
+2026-09-25 02:24:19 | READ | Song | Search: Test | Result: 1
+2026-09-25 02:24:19 | UPDATE | Song | 37 | Updated Test Song
+2026-09-25 02:24:19 | DELETE | Song | 37 | Updated Test Song
+2026-09-25 02:24:19 | CREATE | User | Username: testuser | Role: User
+2026-09-25 02:24:19 | READ | User | Search: Username 'testuser' | Result: testuser
+2026-09-25 02:24:19 | READ | User | Search: Username 'testuser' | Result: testuser
+2026-09-25 02:24:19 | DELETE | User | Failed to delete: UserId: 5 | Cause of failure: Insufficielt role permissions: User
+2026-09-25 02:24:19 | DELETE | User |  Deleted user with UserId: 5 | Cause of success: Role permissions: Admin
+2026-09-25 04:15:53 | CREATE | Song | 40 | Test Song
+2026-09-25 04:15:53 | CREATE | SongArtist | SongId: 40 | ArtistId: 21 | MainArtist: True
+2026-09-25 04:15:53 | CREATE | SongArtist | SongId: 40 | ArtistId: 22 | MainArtist: False
+2026-09-25 04:15:53 | CREATE | AlbumSong | AlbumId: 20 | SongId: 40
+2026-09-25 04:15:53 | CREATE | Media | MediaId: 32 | SongId: 40 | ExternalId: external-test-id
+2026-09-25 04:15:53 | READ | Song | Search: Test | Result: 1
+2026-09-25 04:15:53 | UPDATE | Song | 40 | Updated Test Song
+2026-09-25 04:15:53 | DELETE | Song | 40 | Updated Test Song
+2026-09-25 04:15:54 | CREATE | User | Username: testuser | Role: User
+2026-09-25 04:15:54 | READ | User | Search: Username 'testuser' | Result: testuser
+2026-09-25 04:15:54 | READ | User | Search: Username 'testuser' | Result: testuser
+2026-09-25 04:15:54 | DELETE | User | Failed to delete: UserId 6 | Cause of failure: Insufficielt role permissions: User
+2026-09-25 04:15:54 | DELETE | User | Deleted user with UserId 6 | Cause of success: Role permissions: Admin
