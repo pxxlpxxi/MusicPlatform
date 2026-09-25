@@ -5,9 +5,9 @@ De centrale dele er præsentation/UI, application logic, services, dataadgang og
 
 Arkitekturen indeholder samtidig et princip fra **Clean Architecture**, nemlig at den konkrete databaseimplementation 
 ikke er den direkte afhængighed for services. 
-Dette er opnået ved at introducere interfacet ``IMusicPlatformContext``.
+Dette er opnået ved at introducere interfacet `IMusicPlatformContext`.
 
-Services afhænger derfor af ``IMusicPlatformContext``, mens den konkrete ``MusicPlatformContext`` implementerer dette interface. 
+Services afhænger derfor af `IMusicPlatformContext`, mens den konkrete `MusicPlatformContext` implementerer dette interface. 
 På den måde ligger abstraktionen mellem applikationslogikken og den konkrete databaseimplementation.
 
 Projektet er ikke en fuld Clean Architecture-implementering. 
@@ -26,10 +26,10 @@ Presentation / UI
 Application / Services
        │
        ▼
-`IMusicPlatformContext`
+IMusicPlatformContext
        ▲
        │
-`MusicPlatformContext`
+MusicPlatformContext
        │
        ▼
 EF Core / PostgreSQL
@@ -37,9 +37,9 @@ EF Core / PostgreSQL
 
 Pilene viser afhængigheden mellem delene.
 
-Services afhænger af abstraktionen ``IMusicPlatformContext`` og ikke direkte af ``MusicPlatformContext``.
+Services afhænger af abstraktionen `IMusicPlatformContext` og ikke direkte af `MusicPlatformContext`.
 
-``MusicPlatformContext`` implementerer ``IMusicPlatformContext`` og står for den konkrete EF Core-baserede databaseadgang.
+`MusicPlatformContext` implementerer `IMusicPlatformContext` og står for den konkrete EF Core-baserede databaseadgang.
 
 Det betyder, at den konkrete implementation af dataadgangen kan udskiftes uden nødvendigvis at ændre den service, der bruger interfacet. 
 Det kan f.eks. være relevant ved tests eller hvis dataadgangen senere skal ændres.
@@ -68,7 +68,7 @@ IMusicPlatformContext
 MusicPlatformContext
 ```
 
-`SongService` kender dermed kun interfacet, mens den konkrete ``MusicPlatformContext`` leverer implementationen.
+`SongService` kender dermed kun interfacet, mens den konkrete `MusicPlatformContext` leverer implementationen.
 
 Det reducerer koblingen mellem service-laget og den konkrete EF Core-context.
 
