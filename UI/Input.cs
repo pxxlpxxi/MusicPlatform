@@ -1,7 +1,12 @@
-﻿namespace MusicPlatform.UI
+﻿using System;
+
+namespace MusicPlatform.UI
 {
     public class Input : IInput
     {
+        private readonly IOutput _output = new Output();
+        private bool _quitRequested;
+        public bool QuitRequested => _quitRequested;
         public string ReadString()
         {
             return Console.ReadLine() ?? "";
@@ -37,5 +42,25 @@
         {
             return Console.ReadKey();
         }
+        public ConsoleKey WaitForKeyOrQuit()
+        {
+            while (true)
+            {
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Q)
+                {
+                    _quitRequested = true;
+                    return ConsoleKey.Q;
+                }
+                return key.Key;
+            }
+        }
+
+        public ConsoleKeyInfo ReadKey(bool intercept)
+        {
+            throw new NotImplementedException();
+        }
     }
+
 }
+

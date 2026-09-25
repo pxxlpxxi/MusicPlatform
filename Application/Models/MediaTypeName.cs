@@ -4,6 +4,7 @@
     {
         YouTube,
         Spotify,
-        SoundCloud
+        SoundCloud,
+        Test
     }
 }

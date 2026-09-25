@@ -1,10 +1,12 @@
-DROP TABLE IF EXISTS "Media";
-DROP TABLE IF EXISTS "SongArtist";
-DROP TABLE IF EXISTS "AlbumSong";
-DROP TABLE IF EXISTS "MediaType";
-DROP TABLE IF EXISTS "Song";
-DROP TABLE IF EXISTS "Artist";
-DROP TABLE IF EXISTS "Album";
+--uncomment to reset db tables
+--DROP TABLE IF EXISTS "Media";
+--DROP TABLE IF EXISTS "SongArtist";
+--DROP TABLE IF EXISTS "AlbumSong";
+--DROP TABLE IF EXISTS "MediaType";
+--DROP TABLE IF EXISTS "Song";
+--DROP TABLE IF EXISTS "Artist";
+--DROP TABLE IF EXISTS "Album";
+--DROP TABLE IF EXISTS "User";
 
 CREATE TABLE IF NOT EXISTS "Artist"
 (
@@ -46,7 +48,7 @@ REFERENCES "Artist"("Id")
 ON DELETE CASCADE
 );
 
-CREATE UNIQUE INDEX UX_SongArtist_OneMainArtist
+CREATE UNIQUE INDEX IF NOT EXISTS UX_SongArtist_OneMainArtist
 ON "SongArtist" ("SongId")
 WHERE "IsMainArtist" = TRUE;
 
@@ -94,4 +96,42 @@ FOREIGN KEY ("MediaTypeId")
 REFERENCES "MediaType"("Id")
 );
 
+CREATE TABLE IF NOT EXISTS "User"
+(
+    "Id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    "Username" VARCHAR(100) NOT NULL UNIQUE,
+    "Password" VARCHAR(255) NOT NULL,
+    "Role" VARCHAR(20) NOT NULL DEFAULT 'User',
+
+    CONSTRAINT CK_User_Role
+    CHECK ("Role" IN ('User', 'Admin'))
+);
+CREATE OR REPLACE PROCEDURE CreateUser(
+    p_username VARCHAR(100),
+    p_password VARCHAR(255),
+    p_role VARCHAR(20)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF p_username IS NULL OR TRIM(p_username) = '' THEN
+        RAISE EXCEPTION 'Username cannot be empty.';
+    END IF;
+
+    IF p_password IS NULL OR TRIM(p_password) = '' THEN
+        RAISE EXCEPTION 'Password cannot be empty.';
+    END IF;
+
+    IF p_role NOT IN ('User', 'Admin') THEN
+        RAISE EXCEPTION 'Invalid role.';
+    END IF;
+
+    INSERT INTO "User" ("Username", "Password", "Role")
+    VALUES (p_username, p_password, p_role);
+
+EXCEPTION
+    WHEN unique_violation THEN
+        RAISE EXCEPTION 'Username already exists.';
+END;
+$$;
 

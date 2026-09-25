@@ -1,4 +1,5 @@
 ﻿using MusicPlatform.Application.Models;
+using MusicPlatform.Application.Services;
 using MusicPlatform.Data;
 using MusicPlatform.Database;
 using MusicPlatform.Helpers;
@@ -25,69 +26,57 @@ else
     output.WriteError("Establishing EF Core connection failed.");
 }
 
-DatabaseSeeder databaseSeeder = new();
 
-databaseSeeder.Seed();
 
+
+DatabaseSeeder databaseSeeder = new(output, context);
 SongService songService = new(context);
 ArtistService artistService = new(context);
 AlbumService albumService = new(context);
 MediaService mediaService = new(context);
+SongCreationService songCreationService = new(context, songService, artistService, albumService, mediaService);
+SongCreationApplicationService songCreationApplicationService = new(songCreationService, input, output);
+
+databaseSeeder.Seed();
+
+
+
 SongInfo songInfo = songService.GetSongInfo(1);
+output.WriteLine(UIHelpers.FormatSong(songInfo));
 
-output.Write(UIHelpers.FormatSong(songInfo));
-//Console.WriteLine(songInfo.Title);
-//Console.WriteLine(songInfo.MainArtist);
+DatabaseTestHelper tester = new(songCreationApplicationService, input, output, songCreationService, songService);
 
-//foreach (string artist in songInfo.FeaturedArtists)
-//{
-//    Console.WriteLine($"Featured: {artist}");
-//}
+// Create
+SongInfo? testSong =
+    tester.TestCreate();
 
-//foreach (AlbumInfo album in songInfo.Albums)
-//{
-//    Console.WriteLine($"Album: {album.Title}");
-//}
+//Read
+tester.TestRead();
 
-//foreach (MediaInfo media in songInfo.Media)
-//{
-//    Console.WriteLine($"Media: {media.Type} - {media.ExternalId}");
-//}
+//Update
+tester.TestUpdate(
+    testSong);
 
-//SongCreationService songCreationService =
-//    new(
-//        context,
-//        songService,
-//        artistService,
-//        albumService,
-//        mediaService);
+//Delete
+tester.TestDelete(
+    testSong);
 
-//// Create
-//Song? testSong =
-//    DatabaseTestHelper.TestCreate(
-//        songCreationService,
-//        songService);
+//trigger test
+tester.TestMainArtistChange(context);
 
-////Read
-//DatabaseTestHelper.TestRead(songService);
+//test that the first artist automatically becomes main artist
+tester.TestFirstArtistBecomesMain(context);
 
-////Update
-//DatabaseTestHelper.TestUpdate(
-//    songService,
-//    testSong);
+//test that the user's IsMainArtist value is respected when the song already has an artist.
+tester.TestMainArtistValue(context);
 
-////Delete
-//DatabaseTestHelper.TestDelete(
-//    songService,
-//    testSong);
+UserService userService = new(context);
 
-////trigger test
-//DatabaseTestHelper.TestMainArtistChange(context);
+tester.TestCreateUser(userService);
 
-////test that the first artist automatically becomes main artist
-//DatabaseTestHelper.TestFirstArtistBecomesMain(context);
+tester.TestUserPermissions(userService);
 
-////test that the user's IsMainArtist value is respected when the song already has an artist.
-//DatabaseTestHelper.TestMainArtistValue(context);
+tester.TestUserValidation(userService);
 
+context.Dispose();
 input.ReadKey();

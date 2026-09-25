@@ -14,6 +14,7 @@ namespace MusicPlatform.Data
         public DbSet<SongArtist> SongArtists { get; set; }
         public DbSet<Media> Media { get; set; }
         public DbSet<MediaType> MediaTypes { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -31,6 +32,8 @@ namespace MusicPlatform.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>().ToTable("User");            
+
             //mapping af DbSet til tabeller: Så hvor C# siger context.Artists (flertal) skal EF Core bruge Artist-tabellen (ental) i databasen
             modelBuilder.Entity<Artist>().ToTable("Artist");
             modelBuilder.Entity<Song>().ToTable("Song");

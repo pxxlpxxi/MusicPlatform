@@ -26,7 +26,7 @@ namespace MusicPlatform.Services
             _mediaService = mediaService;
         }
 
-        internal void CreateSong(SongInfo songInfo)
+        internal SongInfo CreateSong(SongInfo songInfo)
         {
             using var transaction = _context.Database.BeginTransaction();
 
@@ -59,6 +59,9 @@ namespace MusicPlatform.Services
                     _mediaService.AddMedia(song.Id, mediaType.Id, mediaInfo.ExternalId);
                 }
                 transaction.Commit();
+
+                songInfo.Id= song.Id;
+                return songInfo;
             }
             catch
             {

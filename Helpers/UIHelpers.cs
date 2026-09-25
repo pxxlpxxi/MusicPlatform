@@ -1,9 +1,7 @@
 ﻿using MusicPlatform.Application.Models;
 using MusicPlatform.Data;
 using MusicPlatform.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 
 namespace MusicPlatform.Helpers
 {
@@ -30,10 +28,10 @@ namespace MusicPlatform.Helpers
                 ", ",
                 song.Media.Select(m => $"{m.Type}: {m.ExternalId}"));
 
-            return $"Title: {title}\n" +
-                $"Artist: {song.MainArtist}\n" +
-                $"Albums: {albums}\n" +
-                $"Media: {media}\n";
+            return $"Title: {title} | " +
+                $"Artist: {song.MainArtist} | " +
+                $"Albums: {albums} | " +
+                $"Media: {media}";
 
 
         }
@@ -47,12 +45,12 @@ namespace MusicPlatform.Helpers
 
             if (featuredArtists.Count == 1)
             {
-                return $"feat. {featuredArtists[0]}";
+                return $" feat. {featuredArtists[0]}";
             }
 
             if (featuredArtists.Count == 2)
             {
-                return $"feat. {featuredArtists[0]} & {featuredArtists[1]}";
+                return $" feat. {featuredArtists[0]} & {featuredArtists[1]}";
             }
 
             string allButLast = string.Join(
@@ -61,7 +59,7 @@ namespace MusicPlatform.Helpers
 
             string last = featuredArtists[^1];
 
-            return $"feat. {allButLast} & {last}";
+            return $" feat. {allButLast} & {last}";
         }
         private static string FormatAlbums(List<AlbumInfo> albums)
         {

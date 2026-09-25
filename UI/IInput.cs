@@ -6,5 +6,8 @@
         string ReadRequiredString();
         int ReadInt();
         ConsoleKeyInfo ReadKey();
+        ConsoleKeyInfo ReadKey(bool intercept);
+
+        ConsoleKey WaitForKeyOrQuit();
     }
 }

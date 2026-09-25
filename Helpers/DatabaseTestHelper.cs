@@ -4,32 +4,46 @@ using MusicPlatform.Data;
 using MusicPlatform.Models;
 using MusicPlatform.Services;
 using MusicPlatform.UI;
+using Npgsql;
 
 namespace MusicPlatform.Helpers
 {
     internal class DatabaseTestHelper
     {
-        IInput _input =new Input();
-        IOutput _output = new Output();
+        private readonly IInput _input;
+        private readonly IOutput _output;
+        private readonly SongCreationApplicationService _songCreationApplicationService;
+        private readonly SongCreationService _songCreationService;
+        private readonly SongService _songService;
+        private readonly SongInfo _testSong;
 
-        internal SongInfo? TestCreate(
-            SongCreationApplicationService songCreationApplicationService,
-            SongService songService)
+
+        internal DatabaseTestHelper(SongCreationApplicationService songCreationApplicationService, IInput input, IOutput output, SongCreationService songCreationService, SongService songService)
+        {
+            _input = input;
+            _output = output;
+            _songCreationApplicationService = songCreationApplicationService;
+            _songCreationService = songCreationService;
+            _songService = songService;
+        }
+
+        internal SongInfo? TestCreate()
         {
             _output.WriteInfo("* Create *");
 
             try
             {
-                SongInfo song = songCreationApplicationService.AddNewSong(
-                    "Test Song",
-                    "Test Artist",
-                    "Youtube",
-                    "test-external-id");
+                SongInfo song = CreateSongInfo(
+                    title: "Test Song",
+                    mainArtist: "Test Artist"
+                    );
+
+                _songCreationService.CreateSong(song);
 
                 _output.WriteSuccess(
                     "Song created successfully.");
 
-                PrintSongs(songService);
+                PrintSongs(_songService);
 
                 return song;
             }
@@ -52,20 +66,42 @@ namespace MusicPlatform.Helpers
 
             return null;
         }
+        private SongInfo CreateSongInfo(string title, string mainArtist, List<MediaInfo>? media = null, List<string>? featuredArtists = null, List<AlbumInfo>? albums = null)
+        {
+            if (media == null)
+            {
+                media = new List<MediaInfo>() { new MediaInfo { Type = "YouTube", ExternalId = "external-test-id" } };
+            }
+            if (featuredArtists == null)
+            {
+                featuredArtists = new List<string> { "test-artist-2" };
+            }
+            if (albums == null)
+            {
+                albums = new List<AlbumInfo>() { new AlbumInfo { Title = "test-album" } };
+            }
 
-        internal void TestRead(
-            SongService songService)
+            return new SongInfo()
+            {
+                Title = title,
+                MainArtist = mainArtist,
+                FeaturedArtists = featuredArtists,
+                Albums = albums,
+                Media = media
+            };
+        }
+        internal void TestRead()
         {
             _output.WriteInfo("* Read *");
 
             try
             {
                 List<Song> songs =
-                    songService.SearchSongs("Test");
+                    _songService.SearchSongs("Test");
 
                 _output.WriteSuccess("Search results:");
 
-                songs.ForEach(song => {PrintSongDetails(song);});
+                songs.ForEach(song => { PrintSongDetails(song); });
             }
             catch (Exception ex)
             {
@@ -75,8 +111,7 @@ namespace MusicPlatform.Helpers
         }
 
         internal void TestUpdate(
-            SongService songService,
-            Song? testSong)
+            SongInfo? testSong)
         {
             _output.WriteInfo("* Update *");
 
@@ -89,7 +124,7 @@ namespace MusicPlatform.Helpers
                 }
                 else
                 {
-                    songService.UpdateSongTitle(
+                    _songService.UpdateSongTitle(
                         testSong.Id,
                         "Updated Test Song");
 
@@ -97,7 +132,7 @@ namespace MusicPlatform.Helpers
                         "Song updated successfully.");
                 }
 
-                PrintSongs(songService);
+                PrintSongs(_songService);
             }
             catch (ArgumentException ex)
             {
@@ -120,13 +155,14 @@ namespace MusicPlatform.Helpers
         }
 
         internal void TestDelete(
-            SongService songService,
-            Song? testSong)
+            SongInfo? testSong)
         {
             _output.WriteInfo("* Delete *");
 
+            _output.Write($"Song to delete: {UIHelpers.FormatSong(testSong)}");
             try
             {
+
                 if (testSong == null)
                 {
                     _output.WriteError(
@@ -134,14 +170,12 @@ namespace MusicPlatform.Helpers
                 }
                 else
                 {
-                    _output.WriteError(
-                        testSong.Id.ToString());
+                    _songService.DeleteSong(testSong.Id);
 
-                    _output.WriteError(
+                    _output.WriteSuccess(
                         "Song deleted successfully.");
                 }
-
-                PrintSongs(songService);
+                PrintSongs(_songService);
             }
             catch (InvalidOperationException ex)
             {
@@ -206,9 +240,6 @@ namespace MusicPlatform.Helpers
 
                 _output.WriteSuccess(
                     $"Main artist changed from '{oldArtist.Name}' to '{newArtist.Name}'.");
-
-                //UIHelpers.WriteGreen(
-                //    $"Main artist changed from Artist {mainArtist.ArtistId} to ArtistId {newMainArtist.ArtistId}.");
 
                 transaction.Rollback();
 
@@ -377,9 +408,9 @@ namespace MusicPlatform.Helpers
         private void PrintSongDetails(Song song)
         {
 
-            var context = new MusicPlatformContext();
+            SongInfo songInfo = _songService.GetSongInfo(song.Id);
 
-            _output.WriteLine(UIHelpers.OLDFormatSong(context, song));
+            _output.WriteLine(UIHelpers.FormatSong(songInfo));
 
         }
         private void PrintSongs(
@@ -393,10 +424,112 @@ namespace MusicPlatform.Helpers
             _output.WriteInfo("Songs in DB:");
             songs.ForEach(s =>
             {
-                _output.WriteLine( UIHelpers.OLDFormatSong(context, s));
+                _output.WriteLine(UIHelpers.OLDFormatSong(context, s));
+                _output.WriteLine("");
             });
-
         }
+        
+        internal int? TestCreateUser(UserService userService)
+        {
+            _output.WriteInfo("* Create User *");
+
+            try
+            {
+                string username = "testuser";
+                string password = "test123";
+                string role = "User";
+
+                userService.CreateUser(
+                    username,
+                    password,
+                    role);
+
+                User? user = userService.GetUser(username);
+
+                _output.WriteSuccess(
+                    $"User '{username}' created successfully.");
+
+                return user?.Id;
+            }
+            catch (PostgresException ex)
+            {
+                _output.WriteError(
+                    $"Database error: {ex.MessageText}");
+            }
+            catch (Exception ex)
+            {
+                _output.WriteError(
+                    $"Unexpected error: {ex.Message}");
+            }
+
+            return null;
+        }
+
+
+        internal void TestUserPermissions(UserService userService)
+        {
+            _output.WriteInfo("* User Permissions *");
+
+            try
+            {
+                User? testUser = userService.GetUser("testuser");
+
+                if (testUser == null)
+                {
+                    _output.WriteError("Test user was not found.");
+                    return;
+                }
+
+                try
+                {
+                    userService.DeleteUser(testUser.Id, "User");
+
+                    _output.WriteError(
+                        "User was incorrectly allowed to delete.");
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    _output.WriteSuccess(
+                        "User correctly denied delete access.");
+                }
+
+                userService.DeleteUser(testUser.Id, "Admin");
+
+                _output.WriteSuccess(
+                    "Admin correctly allowed to delete.");
+            }
+            catch (Exception ex)
+            {
+                _output.WriteError(
+                    $"User permission test failed: {ex.Message}");
+            }
+        }
+        internal void TestUserValidation(UserService userService)
+        {
+            _output.WriteInfo("* User Validation *");
+
+            try
+            {
+                userService.CreateUser(
+                    "",
+                    "test123",
+                    "User");
+
+                _output.WriteError(
+                    "Invalid user was incorrectly created.");
+            }
+            catch (PostgresException ex)
+            {
+                _output.WriteSuccess(
+                    $"Validation correctly rejected user: {ex.MessageText}");
+            }
+            catch (Exception ex)
+            {
+                _output.WriteError(
+                    $"Unexpected error: {ex.Message}");
+            }
+        }
+
     }
 }
 
