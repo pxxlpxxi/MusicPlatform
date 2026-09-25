@@ -4,7 +4,7 @@ using MusicPlatform.Models;
 
 namespace MusicPlatform.Data
 {
-    internal class MusicPlatformContext : DbContext
+    internal class MusicPlatformContext : DbContext, IMusicPlatformContext
     {
         //properties som repræsenterer en tabel/entity type, som EF Core skal kunne arbejde med
         public DbSet<Album> Albums { get; set; }

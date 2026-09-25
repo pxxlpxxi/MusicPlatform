@@ -6,14 +6,14 @@ namespace MusicPlatform.Services
 {
     internal class SongCreationService
     {
-        private readonly MusicPlatformContext _context;
+        private readonly IMusicPlatformContext _context;
         private readonly SongService _songService;
         private readonly ArtistService _artistService;
         private readonly AlbumService _albumService;
         private readonly MediaService _mediaService;
 
         internal SongCreationService(
-            MusicPlatformContext context,
+            IMusicPlatformContext context,
             SongService songService,
             ArtistService artistService,
             AlbumService albumService,

@@ -8,34 +8,33 @@ namespace MusicPlatform.Seeding
 {
     internal class DatabaseSeeder
     {
-        private readonly MusicPlatformContext _context;
+        private readonly IMusicPlatformContext _context;
         private readonly IOutput _output;
         private readonly List<Song> _songs = [];
         private readonly List<Artist> _artists = [];
         private readonly List<Album> _albums = [];
         private MediaType? _youtube;
 
-        internal DatabaseSeeder(IOutput output, MusicPlatformContext context)
+        internal DatabaseSeeder(IMusicPlatformContext context, IOutput output)
         {
             _context = context;
             _output = output;
         }
         internal void Seed()
         {
-            using var context = new MusicPlatformContext();
 
-            using var transaction = context.Database.BeginTransaction();
+            using var transaction = _context.Database.BeginTransaction();
 
             //artists
             SeedArtists();
-            context.SaveChanges();
+            _context.SaveChanges();
 
             //songs
             SeedSongs();
 
             //albums
             SeedAlbums();
-            context.SaveChanges();
+            _context.SaveChanges();
 
 
             //album songs
@@ -53,7 +52,7 @@ namespace MusicPlatform.Seeding
             //Admin-user
             SeedAdmin();
 
-            context.SaveChanges();
+            _context.SaveChanges();
             transaction.Commit();
 
         }
@@ -293,7 +292,7 @@ namespace MusicPlatform.Seeding
             );
             _context.SaveChanges();
             _output.WriteSuccess("AlbumSongData added.");
-                    }
+        }
 
 
         private void SeedArtists()
@@ -331,7 +330,7 @@ namespace MusicPlatform.Seeding
             _context.SaveChanges();
             _output.WriteSuccess("Artist data added.");
         }
-    
+
 
         private void SeedSongArtists()
         {

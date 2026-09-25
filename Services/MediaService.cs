@@ -6,9 +6,9 @@ namespace MusicPlatform.Services
 {
     internal class MediaService
     {
-        private readonly MusicPlatformContext _context;
+        private readonly IMusicPlatformContext _context;
 
-        internal MediaService(MusicPlatformContext context)
+        internal MediaService(IMusicPlatformContext context)
         {
             _context = context;
         }

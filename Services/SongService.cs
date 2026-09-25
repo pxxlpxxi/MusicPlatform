@@ -8,8 +8,8 @@ namespace MusicPlatform.Services
 {
     internal class SongService
     {
-        private readonly MusicPlatformContext _context;
-        internal SongService(MusicPlatformContext context)
+        private readonly IMusicPlatformContext _context;
+        internal SongService(IMusicPlatformContext context)
         {
             _context = context;
         }

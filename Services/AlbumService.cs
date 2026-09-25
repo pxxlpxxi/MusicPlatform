@@ -6,9 +6,9 @@ namespace MusicPlatform.Services
 {
     internal class AlbumService
     {
-        private readonly MusicPlatformContext _context;
+        private readonly IMusicPlatformContext _context;
 
-        internal AlbumService(MusicPlatformContext context)
+        internal AlbumService(IMusicPlatformContext context)
         {
             _context = context;
         }

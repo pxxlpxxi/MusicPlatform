@@ -3,9 +3,9 @@ using MusicPlatform.Data;
 using MusicPlatform.Models;
 
 
-namespace MusicPlatform.Helpers
+namespace MusicPlatform.UI
 {
-    internal static class UIHelpers
+    internal static class UIHelper
     {
         private const ConsoleColor Green = ConsoleColor.DarkGreen;
 
@@ -87,7 +87,7 @@ namespace MusicPlatform.Helpers
             return $"{allButLast} & {last}";
         }
         internal static string OLDFormatSong(
-            MusicPlatformContext context,
+            IMusicPlatformContext context,
             Song song)
         {
             List<SongArtist> songArtists = context.SongArtists

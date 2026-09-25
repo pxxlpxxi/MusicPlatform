@@ -9,9 +9,9 @@ namespace MusicPlatform.Services
 {
     internal class UserService
     {
-        private readonly MusicPlatformContext _context;
+        private readonly IMusicPlatformContext _context;
 
-        internal UserService(MusicPlatformContext context)
+        internal UserService(IMusicPlatformContext context)
         {
             _context = context;
         }

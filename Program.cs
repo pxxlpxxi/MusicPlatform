@@ -29,7 +29,7 @@ else
 
 
 
-DatabaseSeeder databaseSeeder = new(output, context);
+DatabaseSeeder databaseSeeder = new(context, output);
 SongService songService = new(context);
 ArtistService artistService = new(context);
 AlbumService albumService = new(context);
@@ -42,9 +42,9 @@ databaseSeeder.Seed();
 
 
 SongInfo songInfo = songService.GetSongInfo(1);
-output.WriteLine(UIHelpers.FormatSong(songInfo));
+output.WriteLine(UIHelper.FormatSong(songInfo));
 
-DatabaseTestHelper tester = new(songCreationApplicationService, input, output, songCreationService, songService);
+DatabaseTestHelper tester = new(context, songCreationApplicationService, input, output, songCreationService, songService);
 
 // Create
 SongInfo? testSong =
@@ -62,7 +62,7 @@ tester.TestDelete(
     testSong);
 
 //trigger test
-tester.TestMainArtistChange(context);
+tester.TestMainArtistChange();
 
 //test that the first artist automatically becomes main artist
 tester.TestFirstArtistBecomesMain(context);

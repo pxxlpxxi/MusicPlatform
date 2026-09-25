@@ -10,6 +10,7 @@ namespace MusicPlatform.Helpers
 {
     internal class DatabaseTestHelper
     {
+        private readonly IMusicPlatformContext _context;
         private readonly IInput _input;
         private readonly IOutput _output;
         private readonly SongCreationApplicationService _songCreationApplicationService;
@@ -18,8 +19,9 @@ namespace MusicPlatform.Helpers
         private readonly SongInfo _testSong;
 
 
-        internal DatabaseTestHelper(SongCreationApplicationService songCreationApplicationService, IInput input, IOutput output, SongCreationService songCreationService, SongService songService)
+        internal DatabaseTestHelper(IMusicPlatformContext context, SongCreationApplicationService songCreationApplicationService, IInput input, IOutput output, SongCreationService songCreationService, SongService songService)
         {
+            _context = context;
             _input = input;
             _output = output;
             _songCreationApplicationService = songCreationApplicationService;
@@ -159,7 +161,7 @@ namespace MusicPlatform.Helpers
         {
             _output.WriteInfo("* Delete *");
 
-            _output.Write($"Song to delete: {UIHelpers.FormatSong(testSong)}");
+            _output.Write($"Song to delete: {UIHelper.FormatSong(testSong)}");
             try
             {
 
@@ -192,17 +194,16 @@ namespace MusicPlatform.Helpers
             }
         }
 
-        internal void TestMainArtistChange(
-            MusicPlatformContext context)
+        internal void TestMainArtistChange()
         {
             _output.WriteInfo("* Trigger *");
 
             try
             {
                 using var transaction =
-                    context.Database.BeginTransaction();
+                    _context.Database.BeginTransaction();
 
-                Song? testSong = context.Songs
+                Song? testSong = _context.Songs
                     .FirstOrDefault(s => s.Title == "BRÆNDER");
 
                 if (testSong == null)
@@ -211,12 +212,12 @@ namespace MusicPlatform.Helpers
                         "The test song was not found.");
                 }
 
-                SongArtist? mainArtist = context.SongArtists
+                SongArtist? mainArtist = _context.SongArtists
                     .FirstOrDefault(sa =>
                         sa.SongId == testSong.Id &&
                         sa.IsMainArtist);
 
-                SongArtist? newMainArtist = context.SongArtists
+                SongArtist? newMainArtist = _context.SongArtists
                     .FirstOrDefault(sa =>
                         sa.SongId == testSong.Id &&
                         !sa.IsMainArtist);
@@ -230,12 +231,12 @@ namespace MusicPlatform.Helpers
                 mainArtist.IsMainArtist = false;
                 newMainArtist.IsMainArtist = true;
 
-                context.SaveChanges();
+                _context.SaveChanges();
 
-                Artist oldArtist = context.Artists
+                Artist oldArtist = _context.Artists
                     .First(a => a.Id == mainArtist.ArtistId);
 
-                Artist newArtist = context.Artists
+                Artist newArtist = _context.Artists
                     .First(a => a.Id == newMainArtist.ArtistId);
 
                 _output.WriteSuccess(
@@ -410,13 +411,13 @@ namespace MusicPlatform.Helpers
 
             SongInfo songInfo = _songService.GetSongInfo(song.Id);
 
-            _output.WriteLine(UIHelpers.FormatSong(songInfo));
+            _output.WriteLine(UIHelper.FormatSong(songInfo));
 
         }
         private void PrintSongs(
             SongService songService)
         {
-            var context = new MusicPlatformContext();
+            
 
             List<Song> songs =
                 songService.GetSongs();
@@ -424,7 +425,7 @@ namespace MusicPlatform.Helpers
             _output.WriteInfo("Songs in DB:");
             songs.ForEach(s =>
             {
-                _output.WriteLine(UIHelpers.OLDFormatSong(context, s));
+                _output.WriteLine(UIHelper.OLDFormatSong(_context, s));
                 _output.WriteLine("");
             });
         }
