@@ -153,7 +153,7 @@ Jeg bruger PostgreSQL, hvor indexmodellen er anderledes end den, der beskrives f
 
 
 
-Jeg har implementeret to indexes. Det første er et `*GIN-index`* på `Song.Title` sammen med `pg\_trgm`. Det er valgt, fordi min applikation søger med `ILIKE '%søgeterm%'`. `pg\_trgm` opdeler teksten i små grupper på tre tegn, kaldet trigrams, og `GIN-indexet` gemmer oplysninger om, hvilke rækker der indeholder disse tekststykker. Når databasen søger efter `%Test%`, kan indexet derfor hjælpe med hurtigt at finde relevante rækker i stedet for nødvendigvis at gennemgå hele tabellen. På mit lille datasæt vælger PostgreSQL dog et Sequential Scan, fordi det er billigere at gennemgå de 27 rækker direkte. Det betyder ikke, at indexet er ubrugeligt - fordelen bliver mest relevant ved større datamængder.
+Jeg har implementeret to indexes. Det første er et `GIN-index` på `Song.Title` sammen med `pg\_trgm`. Det er valgt, fordi min applikation søger med `ILIKE '%søgeterm%'`. `pg\_trgm` opdeler teksten i små grupper på tre tegn, kaldet trigrams, og `GIN-indexet` gemmer oplysninger om, hvilke rækker der indeholder disse tekststykker. Når databasen søger efter `%Test%`, kan indexet derfor hjælpe med hurtigt at finde relevante rækker i stedet for nødvendigvis at gennemgå hele tabellen. På mit lille datasæt vælger PostgreSQL dog et Sequential Scan, fordi det er billigere at gennemgå de 27 rækker direkte. Det betyder ikke, at indexet er ubrugeligt - fordelen bliver mest relevant ved større datamængder.
 
 
 
