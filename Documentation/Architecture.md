@@ -57,15 +57,15 @@ Uden interfacet ville en service eksempelvis være direkte afhængig af:
 ```
 SongService
     ↓
-`MusicPlatformContext`
-
+MusicPlatformContext
+```
 Efter ændringen er afhængigheden i stedet:
-
+```
 SongService
     ↓
-`IMusicPlatformContext`
+IMusicPlatformContext
     ↑
-`MusicPlatformContext`
+MusicPlatformContext
 ```
 
 `SongService` kender dermed kun interfacet, mens den konkrete ``MusicPlatformContext`` leverer implementationen.
@@ -114,8 +114,8 @@ MusicPlatform/
 │       └── SongCreationApplicationService.cs
 │
 ├── Data/
-│   ├── `IMusicPlatformContext`.cs
-│   └── `MusicPlatformContext`.cs
+│   ├── IMusicPlatformContext.cs
+│   └── MusicPlatformContext.cs
 │
 ├── Database/
 │   ├── create_database.sql
