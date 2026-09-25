@@ -167,7 +167,7 @@ MusicPlatform/
 │   └── PasswordReader.cs
 │
 ├── .gitattributes
-├──.gitignore
+├── .gitignore
 │
 └── Program.cs
 
