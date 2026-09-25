@@ -14,7 +14,6 @@ namespace MusicPlatform.Data
         DbSet<Media> Media { get; }
         DbSet<MediaType> MediaTypes { get; }
         DbSet<User> Users { get; }
-
         int SaveChanges();
         DatabaseFacade Database { get; }
     }

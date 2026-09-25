@@ -27,7 +27,7 @@ else
 }
 
 
-
+//TODO: Microsoft.Extensions.DependencyInjection
 
 DatabaseSeeder databaseSeeder = new(context, output);
 SongService songService = new(context);
@@ -40,8 +40,8 @@ SongCreationApplicationService songCreationApplicationService = new(songCreation
 databaseSeeder.Seed();
 
 
-
-SongInfo songInfo = songService.GetSongInfo(1);
+//translate a db Song model to an app SongInfo model
+SongInfo songInfo = songService.GetSongInfoBySongId(1);
 output.WriteLine(UIHelper.FormatSong(songInfo));
 
 DatabaseTestHelper tester = new(context, songCreationApplicationService, input, output, songCreationService, songService);
@@ -70,6 +70,8 @@ tester.TestFirstArtistBecomesMain(context);
 //test that the user's IsMainArtist value is respected when the song already has an artist.
 tester.TestMainArtistValue(context);
 
+
+//usertests
 UserService userService = new(context);
 
 tester.TestCreateUser(userService);

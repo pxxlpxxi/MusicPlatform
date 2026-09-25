@@ -101,7 +101,7 @@ namespace MusicPlatform.Services
             return _context.Songs.ToList();
         }
 
-        internal SongInfo GetSongInfo(int songId)
+        internal SongInfo GetSongInfoBySongId(int songId)
         {
             Song? song =
                 _context.Songs
@@ -128,9 +128,9 @@ namespace MusicPlatform.Services
                 .ToList();
 
             //Contains() her betyder i praksis: "findes denne præcise int-værdi i listen?"
-            //Fordi _context.Artists er en EF Core DbSet, bliver LINQ ikke bare kørt som almindelig C#-kode.
+            //Fordi _context.Artists er et EF Core DbSet bliver LINQ ikke bare kørt som almindelig C#-kode.
             //EF Core oversætter udtrykket til SQL.
-            //basically, feks: SELECT * FROM "Artist" WHERE "Id" IN (1, 10, 401), og
+            //feks: SELECT * FROM "Artist" WHERE "Id" IN (1, 10, 401), og
             //altså IKKE det samme som:
             // string id = "401";
             //text.Contains("1");

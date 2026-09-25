@@ -126,6 +126,7 @@ MusicPlatform/
 │       ├── Evidence 
 │       ├── Indexes.png
 │       └── StoredProcedure_Indexes_Triggers.png
+│   ├── Architecture.md
 │   ├── Del_2_Noter.md
 │   ├── Del_3_Noter.md
 │   └── Del_4_Noter.md
@@ -161,8 +162,8 @@ MusicPlatform/
 │   ├── DatabaseTestHelper.cs
 │   ├── IInput.cs
 │   ├── Input.cs
-│   ├── `IOutput`.cs
-│   ├── `Output`.cs
+│   ├── IOutput.cs
+│   ├── Output.cs
 │   └── PasswordReader.cs
 │
 ├── .gitattributes
@@ -214,7 +215,7 @@ Det betyder, at services ikke selv opretter en konkret `MusicPlatformContext`, m
 
 Eksempel:
 ```
-internal SongService(`IMusicPlatformContext` context)
+internal SongService(IMusicPlatformContext context)
 {
     _context = context;
 }
@@ -332,9 +333,9 @@ I stedet for:
 Service
    ↓
 `MusicPlatformContext`
-
+```
 er afhængigheden:
-
+```
 Service
    ↓
 `IMusicPlatformContext`

@@ -389,9 +389,6 @@ namespace MusicPlatform.Helpers
                 _output.WriteSuccess(
                     $"Trigger correctly respected IsMainArtist = false, and kept '{secondArtist.Name}' as non-main artist.");
 
-                //UIHelpers.WriteGreen(
-                //    $"Trigger correctly respected IsMainArtist = false, and kept ArtistId {secondArtist.Id} as non-main artist.");
-
                 transaction.Rollback();
             }
             catch (Exception ex)
@@ -409,7 +406,7 @@ namespace MusicPlatform.Helpers
         private void PrintSongDetails(Song song)
         {
 
-            SongInfo songInfo = _songService.GetSongInfo(song.Id);
+            SongInfo songInfo = _songService.GetSongInfoBySongId(song.Id);
 
             _output.WriteLine(UIHelper.FormatSong(songInfo));
 
