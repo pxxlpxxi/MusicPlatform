@@ -3,9 +3,9 @@ using MusicPlatform.Models;
 
 namespace MusicPlatform.Application.Mappers
 {
-    internal static class SongMapper
+    public static class SongMapper
     {
-        internal static SongInfo ToSongInfo(
+        public static SongInfo ToSongInfo(
             Song song,
             IEnumerable<SongArtist> songArtists,
             IEnumerable<Artist> artists,

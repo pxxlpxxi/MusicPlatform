@@ -1,16 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using MusicPlatform.Application.Models;
-using MusicPlatform.Models;
+﻿using MusicPlatform.Application.Models;
+using MusicPlatform.Data;
 using MusicPlatform.Services;
 using MusicPlatform.UI;
 
 namespace MusicPlatform.Application.Services
 {
-    internal class SongCreationApplicationService
+    public class SongCreationApplicationService
     {
         private readonly SongCreationService _songCreationService;
         private readonly IInput _input;
         private readonly IOutput _output;
+
+        //constructor til console app
         internal SongCreationApplicationService(
             SongCreationService songCreationService,
             IInput input,
@@ -20,6 +21,26 @@ namespace MusicPlatform.Application.Services
             _input = input;
             _output = output;
         }
+
+        //api constructor
+        public SongCreationApplicationService(
+            IMusicPlatformContext context,
+            SongService songService)
+        {
+
+            ArtistService artistService = new(context);
+            AlbumService albumService = new(context);
+            MediaService mediaService = new(context);
+
+            _songCreationService = new SongCreationService(
+                context,
+                songService,
+                artistService,
+                albumService,
+                mediaService);
+        }
+
+
 
         internal SongInfo AddNewSong()
         {
@@ -35,8 +56,7 @@ namespace MusicPlatform.Application.Services
 
             SongInfo song = CreateSongInfo(title, mainArtist, featuredArtists, albums, media);
 
-            _songCreationService.CreateSong(song);
-            return song;
+            return _songCreationService.CreateSong(song);
         }
 
         private string PromptForTitle()
@@ -106,15 +126,15 @@ namespace MusicPlatform.Application.Services
                 {
                     break;
                 }
-                
+
                 DateOnly? releaseDate = PromptForReleaseDate();
-                
+
                 albums.Add(new AlbumInfo
                 {
                     Title = normalizedAlbumTitle,
                     ReleaseDate = releaseDate
                 });
-                
+
                 _output.Write("Add another album for the song? [ Y / N ]: ");
                 ConsoleKeyInfo key = _input.ReadKey();
 
@@ -134,7 +154,8 @@ namespace MusicPlatform.Application.Services
 
             return ValidateAndNormalizeAlbumTitle(albumTitle);
         }
-        private DateOnly? PromptForReleaseDate() {
+        private DateOnly? PromptForReleaseDate()
+        {
             while (true)
             {
                 _output.Write(
@@ -166,17 +187,17 @@ namespace MusicPlatform.Application.Services
                 {
                     break;
                 }
-                    string externalId = PromptForExternalId();
+                string externalId = PromptForExternalId();
 
-                    if (mediaType == MediaTypeName.YouTube)
-                    {
-                        externalId = ExtractYouTubeId(externalId);
-                    }
-                    media.Add(new MediaInfo
-                    {
-                        Type = mediaType.ToString()!,
-                        ExternalId = externalId
-                    });
+                if (mediaType == MediaTypeName.YouTube)
+                {
+                    externalId = ExtractYouTubeId(externalId);
+                }
+                media.Add(new MediaInfo
+                {
+                    Type = mediaType.ToString()!,
+                    ExternalId = externalId
+                });
                 _output.Write("Add another media link? [ Y / N ]: ");
 
                 ConsoleKeyInfo key = _input.ReadKey();
@@ -360,6 +381,16 @@ namespace MusicPlatform.Application.Services
             }
 
             return parsedMediaType;
+        }
+
+
+        // til API
+
+        
+
+        public SongInfo CreateSong(SongInfo song)
+        {
+            return _songCreationService.CreateSong(song);
         }
     }
 

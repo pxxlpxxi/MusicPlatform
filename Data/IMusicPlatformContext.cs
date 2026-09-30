@@ -4,17 +4,17 @@ using MusicPlatform.Models;
 
 namespace MusicPlatform.Data
 {
-    internal interface IMusicPlatformContext
+    public interface IMusicPlatformContext
     {
-        DbSet<Album> Albums { get; }
-        DbSet<Artist> Artists { get; }
-        DbSet<Song> Songs { get; }
-        DbSet<AlbumSong> AlbumSongs { get; }
-        DbSet<SongArtist> SongArtists { get; }
-        DbSet<Media> Media { get; }
-        DbSet<MediaType> MediaTypes { get; }
-        DbSet<User> Users { get; }
-        int SaveChanges();
-        DatabaseFacade Database { get; }
+        public DbSet<Album> Albums { get; }
+        public DbSet<Artist> Artists { get; }
+        public DbSet<Song> Songs { get; }
+        public DbSet<AlbumSong> AlbumSongs { get; }
+        public DbSet<SongArtist> SongArtists { get; }
+        public DbSet<Media> Media { get; }
+        public DbSet<MediaType> MediaTypes { get; }
+        public DbSet<User> Users { get; }
+        public int SaveChanges();
+        public DatabaseFacade Database { get; }
     }
 }

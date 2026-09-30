@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="../../06 GUIprogrammering/MusicPlatform.Web/MusicPlatform.WebAdmin.csproj" />
+  <Project Path="../MusicPlatform.WebApi/MusicPlatform.WebApi.csproj" Id="c489f285-7f7c-429f-922d-001e34e29c7a" />
   <Project Path="MusicPlatform.csproj" />
 </Solution>

@@ -6,16 +6,16 @@ using MusicPlatform.Models;
 
 namespace MusicPlatform.Services
 {
-    internal class SongService
+    public class SongService
     {
         private readonly IMusicPlatformContext _context;
-        internal SongService(IMusicPlatformContext context)
+        public SongService(IMusicPlatformContext context)
         {
             _context = context;
         }
 
         //CREATE: A song must have a title
-        internal Song CreateSong(string title)
+        public Song CreateSong(string title)
         {
             if (string.IsNullOrWhiteSpace(title))
             {
@@ -40,7 +40,7 @@ namespace MusicPlatform.Services
         }
 
         //READ: The search term cannot be empty
-        internal List<Song> SearchSongs(string searchTerm)
+        public List<Song> SearchSongs(string searchTerm)
         {
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
@@ -60,7 +60,7 @@ namespace MusicPlatform.Services
         }
 
         //UPDATE: A song must have a title, and the song must exist
-        internal void UpdateSongTitle(int songId, string newTitle)
+        public void UpdateSongTitle(int songId, string newTitle)
         {
             if (string.IsNullOrWhiteSpace(newTitle))
             {
@@ -82,7 +82,7 @@ namespace MusicPlatform.Services
         }
 
         //DELETE: The song must exist before it can be deleted
-        internal void DeleteSong(int songId)
+        public void DeleteSong(int songId)
         {
             Song? song = _context.Songs.Find(songId);
 
@@ -96,12 +96,12 @@ namespace MusicPlatform.Services
 
         }
 
-        internal List<Song> GetSongs()
+        public List<Song> GetSongs()
         {
             return _context.Songs.ToList();
         }
 
-        internal SongInfo GetSongInfoBySongId(int songId)
+        public SongInfo GetSongInfoBySongId(int songId)
         {
             Song? song =
                 _context.Songs

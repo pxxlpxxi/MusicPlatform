@@ -4,7 +4,7 @@ using MusicPlatform.Models;
 
 namespace MusicPlatform.Services
 {
-    internal class SongCreationService
+    public class SongCreationService
     {
         private readonly IMusicPlatformContext _context;
         private readonly SongService _songService;
@@ -12,7 +12,8 @@ namespace MusicPlatform.Services
         private readonly AlbumService _albumService;
         private readonly MediaService _mediaService;
 
-        internal SongCreationService( 
+        //constructor til console app
+        internal SongCreationService(
             IMusicPlatformContext context,
             SongService songService,
             ArtistService artistService,
@@ -60,7 +61,7 @@ namespace MusicPlatform.Services
                 }
                 transaction.Commit();
 
-                songInfo.Id= song.Id;
+                songInfo.Id = song.Id;
                 return songInfo;
             }
             catch
