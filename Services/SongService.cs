@@ -1,4 +1,5 @@
-﻿using MusicPlatform.Application.Mappers;
+﻿using Microsoft.EntityFrameworkCore;
+using MusicPlatform.Application.Mappers;
 using MusicPlatform.Application.Models;
 using MusicPlatform.Data;
 using MusicPlatform.Logging;
@@ -176,5 +177,266 @@ namespace MusicPlatform.Services
                 media,
                 mediaTypes);
         }
+
+        public SongInfo UpdateSong(
+    int songId,
+    SongInfo songInfo)
+        {
+            if (songInfo == null)
+            {
+                throw new ArgumentException(
+                    "Song data is required.");
+            }
+
+            if (string.IsNullOrWhiteSpace(songInfo.Title))
+            {
+                throw new ArgumentException(
+                    "Song must have a title.");
+            }
+
+            if (string.IsNullOrWhiteSpace(songInfo.MainArtist))
+            {
+                throw new ArgumentException(
+                    "Main artist is required.");
+            }
+
+            Song? song =
+                _context.Songs
+                .FirstOrDefault(s => s.Id == songId);
+
+            if (song == null)
+            {
+                throw new InvalidOperationException(
+                    "The song does not exist.");
+            }
+
+            using var transaction =
+                _context.Database.BeginTransaction();
+
+            try
+            {
+                // SONG
+
+                song.Title =
+                    songInfo.Title.Trim();
+
+                _context.SaveChanges();
+
+
+                // ARTISTS
+
+                List<SongArtist> existingSongArtists =
+                    _context.SongArtists
+                    .Where(sa => sa.SongId == songId)
+                    .ToList();
+
+                _context.SongArtists.RemoveRange(
+                    existingSongArtists);
+
+                _context.SaveChanges();
+
+
+                // Main artist
+                Artist? mainArtist =
+                    _context.Artists
+                    .FirstOrDefault(a =>
+                        a.Name == songInfo.MainArtist.Trim());
+
+                if (mainArtist == null)
+                {
+                    mainArtist = new Artist
+                    {
+                        Name = songInfo.MainArtist.Trim()
+                    };
+
+                    _context.Artists.Add(mainArtist);
+                    _context.SaveChanges();
+                }
+
+                _context.SongArtists.Add(
+                    new SongArtist
+                    {
+                        SongId = songId,
+                        ArtistId = mainArtist.Id,
+                        IsMainArtist = true
+                    });
+
+
+                // Featured artists
+                foreach (
+                    string artistName
+                    in songInfo.FeaturedArtists)
+                {
+                    if (string.IsNullOrWhiteSpace(artistName))
+                    {
+                        continue;
+                    }
+
+                    string normalizedArtistName =
+                        artistName.Trim();
+
+                    Artist? artist =
+                        _context.Artists
+                        .FirstOrDefault(a =>
+                            a.Name == normalizedArtistName);
+
+                    if (artist == null)
+                    {
+                        artist = new Artist
+                        {
+                            Name = normalizedArtistName
+                        };
+
+                        _context.Artists.Add(artist);
+                        _context.SaveChanges();
+                    }
+
+                    _context.SongArtists.Add(
+                        new SongArtist
+                        {
+                            SongId = songId,
+                            ArtistId = artist.Id,
+                            IsMainArtist = false
+                        });
+                }
+
+                _context.SaveChanges();
+
+
+                // ALBUMS
+
+                List<AlbumSong> existingAlbumSongs =
+                    _context.AlbumSongs
+                    .Where(als => als.SongId == songId)
+                    .ToList();
+
+                _context.AlbumSongs.RemoveRange(
+                    existingAlbumSongs);
+
+                _context.SaveChanges();
+
+
+                foreach (
+                    AlbumInfo albumInfo
+                    in songInfo.Albums)
+                {
+                    if (string.IsNullOrWhiteSpace(
+                        albumInfo.Title))
+                    {
+                        continue;
+                    }
+
+                    string normalizedAlbumTitle =
+                        albumInfo.Title.Trim();
+
+                    Album? album =
+                        _context.Albums
+                        .FirstOrDefault(a =>
+                            a.Title == normalizedAlbumTitle &&
+                            a.ReleaseDate ==
+                                albumInfo.ReleaseDate);
+
+                    if (album == null)
+                    {
+                        album = new Album
+                        {
+                            Title =
+                                normalizedAlbumTitle,
+
+                            ReleaseDate =
+                                albumInfo.ReleaseDate
+                        };
+
+                        _context.Albums.Add(album);
+                        _context.SaveChanges();
+                    }
+
+                    _context.AlbumSongs.Add(
+                        new AlbumSong
+                        {
+                            SongId = songId,
+                            AlbumId = album.Id
+                        });
+                }
+
+                _context.SaveChanges();
+
+
+                // MEDIA
+
+                List<Media> existingMedia =
+                    _context.Media
+                    .Where(m => m.SongId == songId)
+                    .ToList();
+
+                _context.Media.RemoveRange(
+                    existingMedia);
+
+                _context.SaveChanges();
+
+
+                foreach (
+                    MediaInfo mediaInfo
+                    in songInfo.Media)
+                {
+                    if (string.IsNullOrWhiteSpace(
+                        mediaInfo.ExternalId))
+                    {
+                        continue;
+                    }
+
+                    string mediaTypeName =
+                        mediaInfo.Type.Trim();
+
+                    MediaType? mediaType =
+                        _context.MediaTypes
+                        .FirstOrDefault(mt =>
+                            mt.Name == mediaTypeName);
+
+                    if (mediaType == null)
+                    {
+                        mediaType = new MediaType
+                        {
+                            Name = mediaTypeName
+                        };
+
+                        _context.MediaTypes.Add(
+                            mediaType);
+
+                        _context.SaveChanges();
+                    }
+
+                    _context.Media.Add(
+                        new Media
+                        {
+                            SongId = songId,
+
+                            MediaTypeId =
+                                mediaType.Id,
+
+                            ExternalId =
+                                mediaInfo.ExternalId.Trim()
+                        });
+                }
+
+                _context.SaveChanges();
+
+
+                transaction.Commit();
+
+
+                // RETURN UPDATED SONG
+
+                return GetSongInfoBySongId(
+                    songId);
+            }
+            catch
+            {
+                transaction.Rollback();
+                throw;
+            }
+        }
+       
+
     }
 }

@@ -22,24 +22,7 @@ namespace MusicPlatform.Application.Services
             _output = output;
         }
 
-        //api constructor
-        public SongCreationApplicationService(
-            IMusicPlatformContext context,
-            SongService songService)
-        {
-
-            ArtistService artistService = new(context);
-            AlbumService albumService = new(context);
-            MediaService mediaService = new(context);
-
-            _songCreationService = new SongCreationService(
-                context,
-                songService,
-                artistService,
-                albumService,
-                mediaService);
-        }
-
+        
 
 
         internal SongInfo AddNewSong()
@@ -386,12 +369,9 @@ namespace MusicPlatform.Application.Services
 
         // til API
 
-        
 
-        public SongInfo CreateSong(SongInfo song)
-        {
-            return _songCreationService.CreateSong(song);
-        }
+
+       
     }
 
 }
