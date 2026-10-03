@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MusicPlatform.Application.Models;
+using Microsoft.EntityFrameworkCore;
 using MusicPlatform.Data;
 using MusicPlatform.Logging;
 using MusicPlatform.Models;
 using Npgsql;
 using System.Data;
+using MusicPlatform.Application.Mappers;
 
 namespace MusicPlatform.Services
 {
@@ -35,6 +37,7 @@ namespace MusicPlatform.Services
             string password,
             string role)
         {
+
             string sql =
                 "CALL CreateUser(@username, @password, @role)";
 
@@ -47,6 +50,32 @@ namespace MusicPlatform.Services
             DatabaseLogger.Log("CREATE", "User", $"Username: {username} | Role: {role}");
                     }
 
+        internal UserInfo? Login(string username, string password)
+        {
+
+            string sql =
+                "SELECT * FROM AuthenticateUser(@username, @password)";
+
+            var user = _context.AuthenticatedUsers
+                .FromSqlRaw(
+                sql, 
+                new NpgsqlParameter("@username", username), 
+                new NpgsqlParameter("@password", password))
+                .AsEnumerable()
+                .FirstOrDefault();
+
+            if (user != null)
+            {
+                DatabaseLogger.Log("LOGIN", "User", $"Username: {username} | Result: Success");
+            }
+            else
+            {
+                DatabaseLogger.Log("LOGIN", "User", $"Username: {username} | Result: Failure");
+                return null;
+            }
+
+            return UserMapper.ToUserInfo(user.Id, user.Username, user.Role);
+        }
 
         internal void DeleteUser(
             int userId,
@@ -77,7 +106,7 @@ namespace MusicPlatform.Services
             User? result = _context.Users
                 .FirstOrDefault(u => u.Username == username);
 
-            DatabaseLogger.Log("READ", "User", $"Search: Username '{username}' | Result: {result.Username}");
+            DatabaseLogger.Log("READ", "User", $"Search: Username '{username}' | Result: {(result != null ? "Found" : "Not found")}");
             return result;
 
         }

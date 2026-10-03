@@ -95,6 +95,18 @@ namespace MusicPlatform.Application.Services
                         artist.Contains(
                             normalizedSearchTerm,
                             StringComparison.OrdinalIgnoreCase))
+                    ||
+                    
+                    //song.Media.Any(media =>
+                    //    media.ExternalId.Contains(
+                    //        normalizedSearchTerm,
+                    //        StringComparison.OrdinalIgnoreCase))
+                    //||
+
+                    song.Albums.Any(album =>
+                        album.Title.Contains(
+                            normalizedSearchTerm,
+                            StringComparison.OrdinalIgnoreCase))
                 )
                 .ToList();
         }
@@ -118,8 +130,8 @@ namespace MusicPlatform.Application.Services
         }
 
         public SongInfo UpdateSong(
-     int songId,
-     SongInfo songInfo)
+            int songId,
+            SongInfo songInfo)
         {
             foreach (MediaInfo media in songInfo.Media)
             {

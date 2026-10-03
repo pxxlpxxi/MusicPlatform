@@ -99,6 +99,7 @@ namespace MusicPlatform.Services
 
         public List<Song> GetSongs()
         {
+            DatabaseLogger.Log("READ", "Song", $"Fetching all songs.");
             return _context.Songs.ToList();
         }
 
@@ -116,6 +117,7 @@ namespace MusicPlatform.Services
                 _context.SongArtists
                 .Where(sa => sa.SongId == songId)
                 .ToList();
+            //GetSongArtistsBySongId();
 
             List<int> artistIds =
                  songArtists
@@ -167,6 +169,10 @@ namespace MusicPlatform.Services
                 _context.MediaTypes
                 .Where(mt => mediaTypeIds.Contains(mt.Id))
                 .ToList();
+
+            DatabaseLogger.Log("READ", "Song", 
+                $"Fetching data connected to Song with Id: {songId} | " +
+                $"Results: {songArtists.Count + artists.Count + albumSongs.Count + albums.Count + media.Count + mediaTypes.Count}");
 
             return SongMapper.ToSongInfo(
                 song,
@@ -424,6 +430,16 @@ namespace MusicPlatform.Services
 
                 transaction.Commit();
 
+
+                DatabaseLogger.Log(
+                    "UPDATE",
+                    "Song",
+                    $"SongId: {songId} | " +
+                    $"Title: {song.Title} | " +
+                    $"MainArtist: {songInfo.MainArtist} | " +
+                    $"FeaturedArtists: {string.Join(", ", songInfo.FeaturedArtists)} | " +
+                    $"Albums: {string.Join(", ", songInfo.Albums.Select(a => a.Title))} | " +
+                    $"Media: {string.Join(", ", songInfo.Media.Select(m => m.Type + ":" + m.ExternalId))}");
 
                 // RETURN UPDATED SONG
 

@@ -1,3 +1,6 @@
+--enable password hashing functions
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 --uncomment to reset db tables
 --DROP TABLE IF EXISTS "Media";
 --DROP TABLE IF EXISTS "SongArtist";
@@ -96,6 +99,7 @@ FOREIGN KEY ("MediaTypeId")
 REFERENCES "MediaType"("Id")
 );
 
+-- user table with role constraint and unique username
 CREATE TABLE IF NOT EXISTS "User"
 (
     "Id" INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -106,6 +110,7 @@ CREATE TABLE IF NOT EXISTS "User"
     CONSTRAINT CK_User_Role
     CHECK ("Role" IN ('User', 'Admin'))
 );
+
 CREATE OR REPLACE PROCEDURE CreateUser(
     p_username VARCHAR(100),
     p_password VARCHAR(255),
@@ -127,7 +132,10 @@ BEGIN
     END IF;
 
     INSERT INTO "User" ("Username", "Password", "Role")
-    VALUES (p_username, p_password, p_role);
+    VALUES (
+        p_username, 
+        crypt(p_password, gen_salt('sha512crypt')), 
+        p_role);
 
 EXCEPTION
     WHEN unique_violation THEN
@@ -135,3 +143,22 @@ EXCEPTION
 END;
 $$;
 
+CREATE OR REPLACE FUNCTION AuthenticateUser(
+    p_username VARCHAR(100),
+    p_password VARCHAR(255)
+)
+RETURNS TABLE (
+    "Id" INTEGER,
+    "Username" VARCHAR(100),
+    "Role" VARCHAR(20)
+)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT u."Id", u."Username", u."Role"
+    FROM "User" u
+    WHERE u."Username" = p_username
+      AND u."Password" = crypt(p_password, u."Password");
+END;
+$$;

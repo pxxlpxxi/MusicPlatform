@@ -41,7 +41,7 @@ namespace MusicPlatform.Services
             DatabaseLogger.Log(
                 "CREATE",
                 "Artist",
-                $"Name: {normalizedName}");
+                $"Name: {normalizedName} | Id: {artist.Id}");
 
             return artist!;
         }

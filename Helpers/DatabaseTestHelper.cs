@@ -414,7 +414,7 @@ namespace MusicPlatform.Helpers
         private void PrintSongs(
             SongService songService)
         {
-            
+
 
             List<Song> songs =
                 songService.GetSongs();
@@ -426,7 +426,7 @@ namespace MusicPlatform.Helpers
                 _output.WriteLine("");
             });
         }
-        
+
         internal int? TestCreateUser(UserService userService)
         {
             _output.WriteInfo("* Create User *");
@@ -502,9 +502,9 @@ namespace MusicPlatform.Helpers
                     $"User permission test failed: {ex.Message}");
             }
         }
-        internal void TestUserValidation(UserService userService)
+        internal void TestUserCredentialValidation(UserService userService)
         {
-            _output.WriteInfo("* User Validation *");
+            _output.WriteInfo("* User Credential Validation *");
 
             try
             {
@@ -528,6 +528,114 @@ namespace MusicPlatform.Helpers
             }
         }
 
+        private User? CreateTestUser(string username, string password, string role, UserService userService)
+        {
+            try
+            {
+                userService.CreateUser(
+                    username,
+                    password,
+                    role);
+
+                User? testUser = userService.GetUser(username);
+                if (testUser != null)
+                {
+                    return testUser;
+                }
+
+            }
+            catch (PostgresException ex)
+            {
+                _output.WriteError(
+                    $"Database error: {ex.MessageText}");
+            }
+            catch (Exception ex)
+            {
+                _output.WriteError(
+                    $"Unexpected error: {ex.Message}");
+
+            }
+            return null;
+        }
+
+        internal void TestUserDbLogin(UserService userService)
+        {
+            string username = "testuser";
+            string paintextPassword = "test123";
+            string role = "User";
+            string invalidPassword = "wrongpassword";
+
+            _output.WriteInfo("* User Login *");
+
+            User? user = CreateTestUser(username, paintextPassword, role, userService);
+            if (user == null)
+            {
+                _output.WriteError(
+                    "Test user creation failed, cannot test login.");
+                return;
+            }
+            _output.WriteInfo($"Attempting login for user: {user.Username}");
+            try
+            {
+
+                UserInfo? validatedUser = userService.Login(user.Username, paintextPassword);
+
+                if (validatedUser != null)
+                {
+                    _output.WriteSuccess(
+                        $"User '{user.Username}' logged in successfully.");
+                }
+                else
+                {
+                    _output.WriteError(
+                        "Login failed for valid credentials.");
+                }
+
+                UserInfo? invalidUser = userService.Login(
+                    username,
+                    invalidPassword);
+                if (invalidUser == null)
+                {
+                    _output.WriteSuccess(
+                        "Login correctly failed for invalid credentials.");
+                }
+                else
+                {
+                    _output.WriteError(
+                        $"Login incorrectly succeeded for invalid credentials: {user.Username}");
+                }
+            }
+            catch (Exception ex)
+            {
+                _output.WriteError(
+                    $"User login test failed: {ex.Message}");
+            }
+        }
+        internal void DeleteDbTestUser(UserService userService)
+        {
+            _output.WriteInfo("* Delete Test User *");
+            try
+            {
+                User? testUser = userService.GetUser("testuser");
+                if (testUser != null)
+                {
+                    userService.DeleteUser(testUser.Id, "Admin");
+                    _output.WriteSuccess(
+                        $"Test user '{testUser.Username}' deleted successfully.");
+                }
+                else
+                {
+                    _output.WriteInfo(
+                        "No test user found to delete.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _output.WriteError(
+                    $"Delete test user failed: {ex.Message}");
+            }
+
+        }
     }
 }
 

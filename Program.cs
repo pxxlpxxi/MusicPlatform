@@ -46,39 +46,43 @@ output.WriteLine(UIHelper.FormatSong(songInfo));
 
 DatabaseTestHelper tester = new(context, songCreationApplicationService, input, output, songCreationService, songService);
 
-// Create
-SongInfo? testSong =
-    tester.TestCreate();
 
-//Read
-tester.TestRead();
+// SONG CRUD TESTS
+//// Create
+//SongInfo? testSong =
+//    tester.TestCreate();
 
-//Update
-tester.TestUpdate(
-    testSong);
+////Read
+//tester.TestRead();
 
-//Delete
-tester.TestDelete(
-    testSong);
+////Update
+//tester.TestUpdate(
+//    testSong);
 
-//trigger test
-tester.TestMainArtistChange();
+////Delete
+//tester.TestDelete(
+//    testSong);
 
-//test that the first artist automatically becomes main artist
-tester.TestFirstArtistBecomesMain(context);
+////trigger test
+//tester.TestMainArtistChange();
 
-//test that the user's IsMainArtist value is respected when the song already has an artist.
-tester.TestMainArtistValue(context);
+////test that the first artist automatically becomes main artist
+//tester.TestFirstArtistBecomesMain(context);
+
+////test that the user's IsMainArtist value is respected when the song already has an artist.
+//tester.TestMainArtistValue(context);
 
 
-//usertests
+//USER CRUD TESTS
 UserService userService = new(context);
 
 tester.TestCreateUser(userService);
 
 tester.TestUserPermissions(userService);
 
-tester.TestUserValidation(userService);
+tester.TestUserCredentialValidation(userService);
+
+tester.TestUserDbLogin(userService);
 
 context.Dispose();
 input.ReadKey();
