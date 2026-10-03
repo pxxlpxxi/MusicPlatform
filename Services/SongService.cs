@@ -170,9 +170,9 @@ namespace MusicPlatform.Services
                 .Where(mt => mediaTypeIds.Contains(mt.Id))
                 .ToList();
 
-            DatabaseLogger.Log("READ", "Song", 
-                $"Fetching data connected to Song with Id: {songId} | " +
-                $"Results: {songArtists.Count + artists.Count + albumSongs.Count + albums.Count + media.Count + mediaTypes.Count}");
+            //DatabaseLogger.Log("READ", "Song",
+            //    $"Fetching data connected to Song with Id: {songId} | " +
+            //    $"Results: {songArtists.Count + artists.Count + albumSongs.Count + albums.Count + media.Count + mediaTypes.Count}");
 
             return SongMapper.ToSongInfo(
                 song,
@@ -427,9 +427,7 @@ namespace MusicPlatform.Services
 
                 _context.SaveChanges();
 
-
                 transaction.Commit();
-
 
                 DatabaseLogger.Log(
                     "UPDATE",
@@ -443,8 +441,7 @@ namespace MusicPlatform.Services
 
                 // RETURN UPDATED SONG
 
-                return GetSongInfoBySongId(
-                    songId);
+                return GetSongInfoBySongId(songId);
             }
             catch
             {
@@ -452,7 +449,7 @@ namespace MusicPlatform.Services
                 throw;
             }
         }
-       
+
 
     }
 }

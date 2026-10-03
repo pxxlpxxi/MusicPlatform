@@ -1,70 +1,69 @@
 ﻿namespace MusicPlatform.Logging
-    internal static class DatabaseLogger
 {
-    private const string LogFile =
-        "database.log";
-
-    private static readonly object _lock =
-        new();
-
-
-    internal static void Log(
-        string operation,
-        string entity,
-        string details)
+    internal static class DatabaseLogger
     {
-        string timestamp =
-            DateTime.Now.ToString(
-                "yyyy-MM-dd HH:mm:ss");
+        private const string LogFile =            "database.log";
 
-        string logEntry =
-            $"{timestamp} | {operation} | {entity} | {details}{Environment.NewLine}";
+        private static readonly object _lock =            new();
 
 
-        lock (_lock)
+        internal static void Log(
+            string operation,
+            string entity,
+            string details)
         {
-            const int maxAttempts = 5;
+            string timestamp =
+                DateTime.Now.ToString(
+                    "yyyy-MM-dd HH:mm:ss");
 
-            for (
-                int attempt = 1;
-                attempt <= maxAttempts;
-                attempt++)
+            string logEntry =
+                $"{timestamp} | {operation} | {entity} | {details}{Environment.NewLine}";
+
+
+            lock (_lock)
             {
-                try
+                const int maxAttempts = 5;
+
+                for (
+                    int attempt = 1;
+                    attempt <= maxAttempts;
+                    attempt++)
                 {
-                    using FileStream stream =
-                        new FileStream(
-                            LogFile,
-                            FileMode.Append,
-                            FileAccess.Write,
-                            FileShare.ReadWrite);
-
-                    using StreamWriter writer =
-                        new StreamWriter(stream);
-
-                    writer.Write(
-                        logEntry);
-
-                    return;
-                }
-                catch (IOException)
-                {
-                    if (
-                        attempt ==
-                        maxAttempts)
+                    try
                     {
-                        throw;
-                    }
+                        using FileStream stream =
+                            new FileStream(
+                                LogFile,
+                                FileMode.Append,
+                                FileAccess.Write,
+                                FileShare.ReadWrite);
 
-                    //wait for a short period before retrying
-                    //wait time increases with each attempt to reduce the chance of collision
-                    //50ms, 100ms, 150ms, 200ms, then give up
-                    Thread.Sleep(50 * attempt);
+                        using StreamWriter writer =
+                            new StreamWriter(stream);
+
+                        writer.Write(
+                            logEntry);
+
+                        return;
+                    }
+                    catch (IOException)
+                    {
+                        if (
+                            attempt ==
+                            maxAttempts)
+                        {
+                            throw;
+                        }
+
+                        //wait for a short period before retrying
+                        //wait time increases with each attempt to reduce the chance of collision
+                        //50ms, 100ms, 150ms, 200ms, then give up
+                        Thread.Sleep(50 * attempt);
+                    }
                 }
             }
         }
     }
-}
 }
 
 //namespace MusicPlatform.Logging
